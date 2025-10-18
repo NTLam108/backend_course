@@ -1,0 +1,28 @@
+{
+  "name": "backendcourse",
+  "version": "1.0.0",
+  "description": "nodejs selfstudy",
+  "keywords": [
+    "nodejs",
+    "express",
+    "mmongodb"
+  ],
+  "homepage": "https://github.com/NTLam108/backend_course#readme",
+  "bugs": {
+    "url": "https://github.com/NTLam108/backend_course/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NTLam108/backend_course.git"
+  },
+  "license": "ISC",
+  "author": {
+    "name": "Nguyễn Trọng Lâm",
+    "url": "https://www.facebook.com/lam.nguyentrong.904"
+  },
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
