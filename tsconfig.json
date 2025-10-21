@@ -6,6 +6,24 @@
     "sourceMap": true,
     "skipLibCheck": true,
     "outDir": "dist",
-    "rootDir": "src"
+    "rootDir": "src",
+    "baseUrl": ".",
+    "paths": {
+      "config/*": [
+        "./src/config/*"
+      ],
+      "controllers/*": [
+        "./src/controllers/*"
+      ],
+      "routes/*": [
+        "./src/routes/*"
+      ],
+      "services/*": [
+        "./src/services/*"
+      ],
+      "models/*": [
+        "./src/models/*"
+      ]
+    }
   }
 }
