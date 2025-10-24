@@ -14,8 +14,50 @@ datasource db {
 }
 
 model User {
-  id       Int     @id @default(autoincrement())
-  username String? @db.VarChar(255)
-  email    String? @db.VarChar(255)
-  address  String? @db.VarChar(255)
+  id          Int     @id @default(autoincrement())
+  username    String  @db.VarChar(255)
+  password    String  @db.VarChar(255)
+  fullname    String? @db.VarChar(255)
+  address     String? @db.VarChar(255)
+  phone       String? @db.VarChar(255)
+  accountType String  @db.VarChar(255)
+  avatar      String? @db.VarChar(255)
+
+  role   Role @relation(fields: [roleId], references: [id])
+  roleId Int
+
+  @@map("users")
+}
+
+model Role {
+  id          Int    @id @default(autoincrement())
+  name        String @db.VarChar(100)
+  description String @db.VarChar(255)
+
+  users User[]
+
+  @@map("roles")
+}
+
+model Rental {
+  id         Int @id @default(autoincrement())
+  totalPrice Int
+
+  @@map("rentals")
+}
+
+model Car {
+  id          Int     @id @default(autoincrement())
+  name        String  @db.VarChar(255)
+  priceperday Int
+  image       String  @db.VarChar(255)
+  detailCar   String? @db.VarChar(255)
+  carType     String? @db.VarChar(255)
+  seat        Int
+  brand       String  @db.VarChar(255)
+  engine      String? @db.VarChar(255)
+  status      String? @db.VarChar(100)
+  target      String? @db.VarChar(100)
+
+  @@map("cars")
 }
