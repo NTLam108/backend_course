@@ -2,6 +2,7 @@ import express from "express" //import
 import "dotenv/config"  // cu phap su dung voi typescript
 import webRoutes from "./routes/web";
 import getConnection from "./config/database";
+import initDatabase from "config/seed";
 const app = express(); //tao express application
 const PORT = process.env.PORT || 8080; //init port
 //neu process.env.PORT undefined thi se lay gia tri 8080
@@ -24,6 +25,9 @@ app.use(express.static('public'));
 webRoutes(app);
 
 //run server tren port da dc khoi tao truoc do
+
+//seedingdata
+initDatabase();
 //nap cac thong tin khai bao o tren roi chay
 app.listen(PORT, () => {
     console.log(`My app is running on port 123: ${PORT}`)
