@@ -4,7 +4,7 @@ import { getCreateUserpage, getHomepage, getViewUser, postCreateUserpage, postDe
 import { getAdminCarPage, getAdminRentalPage, getAdminUserPage, getDashboardPage } from "controllers/admin/dashboard.controller";
 import fileUploadMiddleware from "src/middleware/multer";
 import { getProductPage } from "controllers/client/client.controller";
-import { getCreateCarPage, postCreateCar } from "controllers/admin/car.controller";
+import { getCreateCarPage, postCreateCar, postDeleteCar } from "controllers/admin/car.controller";
 const router = express.Router();
 
 const webRoutes = (app: Express) => {
@@ -19,16 +19,21 @@ const webRoutes = (app: Express) => {
 
     //admin route
     router.get("/admin", getDashboardPage)
+    //user
     router.get("/admin/user", getAdminUserPage)
-    router.get("/admin/car", getAdminCarPage)
-    router.get("/admin/rental", getAdminRentalPage)
     router.post("/admin/handle-delete-user/:id", postDeleteUser)
     router.get("admin/handle-view-user/:id", getViewUser)
     router.get("/admin/create-user", getCreateUserpage)
     router.post("/admin/update-user", fileUploadMiddleware("avatar"), postUpdateUser)
     router.post("/admin/handle-create-user", fileUploadMiddleware("avatar", "images/user-avatar"), postCreateUserpage)
+    //car
+    router.get("/admin/car", getAdminCarPage)
     router.get("/admin/create-car", getCreateCarPage)
     router.post("/admin/create-car", fileUploadMiddleware("carImage", "images/car-img"), postCreateCar)
+    router.post("/admin/handle-delete-car/:id", postDeleteCar)
+    //rental
+    router.get("/admin/rental", getAdminRentalPage)
+
 }
 
 export default webRoutes;
