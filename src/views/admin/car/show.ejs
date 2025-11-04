@@ -5,9 +5,9 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="Hỏi Dân IT - Dự án laptopshop" />
-    <meta name="author" content="Hỏi Dân IT" />
-    <title>Manage car - Admin</title>
+    <meta name="description" content="VietNam Rent a Car" />
+    <meta name="author" content="Lam Voi" />
+    <title>Manage Car - Admin</title>
     <link href="/admin/css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
@@ -24,7 +24,31 @@
                                 <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
                                 <li class="breadcrumb-item active">Cars</li>
                             </ol>
-                            <div>table car</div>
+                            <div>
+                                <div
+                                    style="display: flex; justify-content: space-between; margin-top: 50px; align-items: center;">
+                                    <div style="padding-left: 20px">
+                                        <h3>Table Car:
+                                        </h3>
+                                    </div>
+                                    <div style="padding-right: 20px;">
+                                        <a href="/admin/create-car" class="btn btn-warning">Create a Car</a>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div style="margin: 20px;">
+                                    <table class="table table-hover table-bordered">
+                                        <thead>
+                                            <th>ID</th>
+                                            <th>Car's name</th>
+                                            <th>Price per day</th>
+                                            <th>Brand</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </main>
                     <%- include('../layout/footer'); -%>
