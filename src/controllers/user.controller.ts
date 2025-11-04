@@ -1,8 +1,14 @@
 import { Request, Response } from "express";
+import { getItemCar } from "services/item.service";
 import { getAllRole, getAllUsers, getUserbyID, handleCreateUser, handleDeleteUser, updateUserbyID } from "services/user.service";
 
 const getHomepage = async (req: Request, res: Response) => {
-    return res.render("client/home/show.ejs")
+    const cars = await getItemCar();
+    return res.render("client/home/show.ejs", {
+        cars
+    })
+
+
 }
 
 const getCreateUserpage = async (req: Request, res: Response) => {
