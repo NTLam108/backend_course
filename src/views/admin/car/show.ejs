@@ -46,6 +46,40 @@
                                             <th>Status</th>
                                             <th>Action</th>
                                         </thead>
+                                        <tbody>
+                                            <% cars.forEach( function (car) { %>
+                                                <tr>
+                                                    <td>
+                                                        <%= car.id%>
+                                                    </td>
+                                                    <td>
+                                                        <%= car.name%>
+                                                    </td>
+                                                    <td>
+                                                        <%= car.priceperday%>
+                                                    </td>
+                                                    <td>
+                                                        <%= car.brand%>
+                                                    </td>
+                                                    <td>
+                                                        <%= car.status%>
+                                                    </td>
+                                                    <td>
+                                                        <div style="display: flex; gap: 10px;">
+                                                            <form action="/handle-view-car/<%= car.id%>" method="get">
+                                                                <button type="submit"
+                                                                    class="btn btn-warning">View</button>
+                                                            </form>
+                                                            <form action="/admin/handle-delete-car/<%= car.id%>"
+                                                                method="post">
+                                                                <button type="submit"
+                                                                    class="btn btn-danger">Delete</button>
+                                                            </form>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <% }) %>
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>

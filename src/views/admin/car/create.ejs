@@ -36,88 +36,98 @@
                                 <li class="breadcrumb-item active">Cars</li>
                             </ol>
                             <div style="width: 40%; margin: auto">
-                                <h4 style="padding: 20px 0;">Create a Car:</h4>
-                                <form action="/admin/create-car" method="post" enctype="multipart/form-data">
-                                    <div class="mb-3">
-                                        <label class="form-label">Car's name</label>
-                                        <input required name="name" type="text" class="form-control"
-                                            placeholder="Your Car's name">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label">Price per day</label>
-                                        <input required name="priceperday" class="form-control" placeholder="vnd/day">
-                                    </div>
 
-                                    <div class="row">
-                                        <div class="mb-3 col-6">
-                                            <label class="form-label">Brand</label>
-                                            <select name="brand" class="form-select">
-                                                <option value="Toyota">Toyota</option>
-                                                <option value="VinFast">VinFast</option>
-                                                <option value="Huyndai">Huyndai</option>
-                                                <option value="Kia">Kia</option>
-                                                <option value="Honda">Honda</option>
-                                                <option value="Mazda">Mazda</option>
-                                                <option value="Mitsubishi">Mitsubishi</option>
-                                                <option value="Ford">Ford</option>
-                                            </select>
-                                        </div>
-                                        <div class="mb-3 col-6">
-                                            <label class="form-label">Type of car:</label>
-                                            <select name="carType" class="form-select">
-                                                <option value="SUV">SUV</option>
-                                                <option value="HatchBack">HatchBack
-                                                </option>
-                                                <option value="Sedan">Sedan</option>
-                                                <option value="VAN">VAN</option>
-                                                <option value="COUPE">COUPE</option>
-                                                <option value="CUV">CUV</option>
-                                                <option value="MPV">MPV</option>
-                                                <option value="PICKUP">PICKUP</option>
-                                            </select>
-                                        </div>
+                                <% errors.forEach( function (error) { %>
+                                    <div class="alert alert-danger mb-3">
+                                        <%= error %>
                                     </div>
+                                    <% }) %>
 
-                                    <div class="row">
-                                        <div class="mb-3 col-6">
-                                            <label class="form-label">Seats:</label>
-                                            <input required type="text" class="form-control" name="seat">
-                                        </div>
-                                        <div class="mb-3 col-6">
-                                            <label class="form-label">Engine</label>
-                                            <select name="engine" class="form-select">
-                                                <option value="Hybrid">Hybrid</option>
-                                                <option value="Electric">Electric</option>
-                                                <option value="Gasoline">Gasoline</option>
-                                                <option value="Diesel">Diesel</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="mb-3">
-                                            <label class="form-label">Status</label>
-                                            <select name="status" class="form-select">
-                                                <option value="Ready">Ready</option>
-                                                <option value="Rented">Rented</option>
-                                            </select>
-                                        </div>
-                                    </div>
+                                        <h4 style="padding: 20px 0;">Create a Car:</h4>
+                                        <form action="/admin/create-car" method="post" enctype="multipart/form-data">
+                                            <div class="mb-3">
+                                                <label class="form-label">Car's name</label>
+                                                <input value="<%= oldData.name %>" name="name" type="text"
+                                                    class="form-control" placeholder="Your Car's name">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Price per day</label>
+                                                <input value="<%=oldData.priceperday%>" name="priceperday"
+                                                    class="form-control" placeholder="vnd/day">
+                                            </div>
 
-                                    <div class="mb-3">
-                                        <label for="formFile" class="form-label">Car's Images</label>
-                                        <input class="form-control" type="file" id="avatarFile" name="carImage"
-                                            accept=".png, .jpg, .jpeg">
-                                    </div>
-                                    <img style="max-height: 250px; display: none;" alt="avatar preview"
-                                        id="avatarPreview" />
-                                    <div class="mb-3">
-                                        <label class="form-label">Car's Detail</label>
-                                        <textarea required name="carDetail" class="form-control" rows="6"></textarea>
-                                    </div>
-                                    <div>
-                                        <button type="submit" class="btn btn-warning mt-3">Submit</button>
-                                    </div>
-                                </form>
+                                            <div class="row">
+                                                <div class="mb-3 col-6">
+                                                    <label class="form-label">Brand</label>
+                                                    <select name="brand" class="form-select">
+                                                        <option value="Toyota">Toyota</option>
+                                                        <option value="VinFast">VinFast</option>
+                                                        <option value="Huyndai">Huyndai</option>
+                                                        <option value="Kia">Kia</option>
+                                                        <option value="Honda">Honda</option>
+                                                        <option value="Mazda">Mazda</option>
+                                                        <option value="Mitsubishi">Mitsubishi</option>
+                                                        <option value="Ford">Ford</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3 col-6">
+                                                    <label class="form-label">Type of car:</label>
+                                                    <select name="carType" class="form-select">
+                                                        <option value="SUV">SUV</option>
+                                                        <option value="HatchBack">HatchBack
+                                                        </option>
+                                                        <option value="Sedan">Sedan</option>
+                                                        <option value="VAN">VAN</option>
+                                                        <option value="COUPE">COUPE</option>
+                                                        <option value="CUV">CUV</option>
+                                                        <option value="MPV">MPV</option>
+                                                        <option value="PICKUP">PICKUP</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="mb-3 col-6">
+                                                    <label class="form-label">Seats:</label>
+                                                    <input value="<%=oldData.seat%>" type="text" class="form-control"
+                                                        name="seat">
+                                                </div>
+                                                <div class="mb-3 col-6">
+                                                    <label class="form-label">Engine</label>
+                                                    <select name="engine" class="form-select">
+                                                        <option value="Hybrid">Hybrid</option>
+                                                        <option value="Electric">Electric</option>
+                                                        <option value="Gasoline">Gasoline</option>
+                                                        <option value="Diesel">Diesel</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Status</label>
+                                                    <select name="status" class="form-select">
+                                                        <option value="Ready">Ready</option>
+                                                        <option value="Rented">Rented</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="formFile" class="form-label">Car's Images</label>
+                                                <input class="form-control" type="file" id="avatarFile" name="carImage"
+                                                    accept=".png, .jpg, .jpeg">
+                                            </div>
+                                            <img style="max-height: 250px; display: none;" alt="avatar preview"
+                                                id="avatarPreview" />
+                                            <div class="mb-3">
+                                                <label class="form-label">Car's Detail</label>
+                                                <textarea name="detailCar" class="form-control"
+                                                    rows="6"><%=oldData.detailCar%></textarea>
+                                            </div>
+                                            <div>
+                                                <button type="submit" class="btn btn-warning mt-3">Submit</button>
+                                            </div>
+                                        </form>
                             </div>
                         </div>
                     </main>
