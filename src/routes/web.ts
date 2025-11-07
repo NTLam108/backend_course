@@ -5,6 +5,7 @@ import { getAdminCarPage, getAdminRentalPage, getAdminUserPage, getDashboardPage
 import fileUploadMiddleware from "src/middleware/multer";
 import { getProductPage } from "controllers/client/client.controller";
 import { getCreateCarPage, getViewCar, postCreateCar, postDeleteCar, postUpdateCar } from "controllers/admin/car.controller";
+import { getLoginPage, getRegisterPage, postRegister } from "controllers/client/auth.controller";
 const router = express.Router();
 
 const webRoutes = (app: Express) => {
@@ -13,7 +14,10 @@ const webRoutes = (app: Express) => {
     router.get("/handle-view-user/:id", getViewUser)
 
     app.use("/", router)   // "/" == website bay dau tu duong dan nao
-
+    //auth route
+    router.get("/login", getLoginPage)
+    router.get("/register", getRegisterPage)
+    router.post("/register", postRegister)
     //client route
     router.get("/car/:id", getProductPage)
 
