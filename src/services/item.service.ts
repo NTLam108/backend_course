@@ -5,4 +5,10 @@ const getItemCar = async () => {
     return cars;
 }
 
-export { getItemCar }
+const getCarById = async (id: number) => {
+    return await prisma.car.findUnique({
+        where: { id }
+    });
+}
+
+export { getItemCar, getCarById }
