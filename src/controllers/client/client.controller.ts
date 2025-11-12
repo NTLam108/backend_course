@@ -10,4 +10,8 @@ const getProductPage = async (req: Request, res: Response) => {
     });
 }
 
-export { getProductPage }
+const get404page = (req: Request, res: Response) => {
+    return res.render("client/other/page404.ejs")
+}
+
+export { getProductPage, get404page }
