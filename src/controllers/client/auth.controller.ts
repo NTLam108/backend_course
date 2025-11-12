@@ -1,8 +1,12 @@
-import { Request, Response } from "express"
+import { NextFunction, Request, Response } from "express"
 import { registerNewUser } from "services/auth.service";
 import { RegisterSchema, TRegisterSchema } from "src/validation/auth.schema";
 const getLoginPage = (req: Request, res: Response) => {
-    return res.render("client/auth/login.ejs");
+    const { session } = req as any;
+    const messages = session?.messages ?? []   //lay message trong phan session
+    return res.render("client/auth/login.ejs", {
+        messages
+    });
 }
 
 const getRegisterPage = (req: Request, res: Response) => {
@@ -39,4 +43,21 @@ const postRegister = async (req: Request, res: Response) => {
     return res.redirect("/login");
 }
 
-export { getLoginPage, getRegisterPage, postRegister }
+const getSuccessRedirectPage = (req: Request, res: Response) => {
+    const user = req.user;
+    if (user?.role?.name === "ADMIN") {
+        res.redirect("/admin")
+    } else {
+        res.redirect("/")
+    }
+}
+
+const postLogout = (req: Request, res: Response, next: NextFunction) => {
+    req.logout(function (err) {
+        if (err) { return next(err); }
+        res.redirect('/');
+    });
+}
+
+
+export { getLoginPage, getRegisterPage, postRegister, getSuccessRedirectPage, postLogout }

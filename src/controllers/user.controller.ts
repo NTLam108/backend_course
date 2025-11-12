@@ -4,11 +4,11 @@ import { getAllRole, getAllUsers, getUserbyID, handleCreateUser, handleDeleteUse
 
 const getHomepage = async (req: Request, res: Response) => {
     const cars = await getItemCar();
+    const user = req.user;
+    console.log("current user: ", user)
     return res.render("client/home/show.ejs", {
         cars
     })
-
-
 }
 
 const getCreateUserpage = async (req: Request, res: Response) => {
