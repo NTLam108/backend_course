@@ -15,10 +15,10 @@ const webRoutes = (app: Express) => {
     router.post("/handle-delete-user/:id", postDeleteUser)
     router.get("/handle-view-user/:id", getViewUser)
 
-    app.use("/", router)   // "/" == website bat dau tu duong dan nay
+
     //auth route
     router.get("/success-redirect", getSuccessRedirectPage)
-    router.get("/login", isLogin, getLoginPage)
+    router.get("/login", getLoginPage)
     router.get("/register", getRegisterPage)
     router.post("/register", postRegister)
     router.post('/login', passport.authenticate('local', {
@@ -32,7 +32,7 @@ const webRoutes = (app: Express) => {
     router.get("/404page", get404page)
 
     //admin route
-    router.get("/admin", isAdmin, getDashboardPage)
+    router.get("/admin", getDashboardPage)
     //user
     router.get("/admin/user", getAdminUserPage)
     router.post("/admin/handle-delete-user/:id", postDeleteUser)
@@ -49,6 +49,9 @@ const webRoutes = (app: Express) => {
     router.post("/admin/update-car", fileUploadMiddleware("carImage", "images/car-img"), postUpdateCar)
     //rental
     router.get("/admin/rental", getAdminRentalPage)
+
+
+    app.use("/", isAdmin, router)   // "/" == website bat dau tu duong dan nay
 
 }
 
