@@ -3,7 +3,7 @@ import { Express } from "express"
 import { getCreateUserpage, getHomepage, getViewUser, postCreateUserpage, postDeleteUser, postUpdateUser } from "controllers/user.controller";
 import { getAdminCarPage, getAdminRentalPage, getAdminUserPage, getDashboardPage } from "controllers/admin/dashboard.controller";
 import fileUploadMiddleware from "src/middleware/multer";
-import { get404page, getProductPage } from "controllers/client/client.controller";
+import { get404page, getCarsPage, getProductPage } from "controllers/client/client.controller";
 import { getCreateCarPage, getViewCar, postCreateCar, postDeleteCar, postUpdateCar } from "controllers/admin/car.controller";
 import { getLoginPage, getRegisterPage, getSuccessRedirectPage, postLogout, postRegister } from "controllers/client/auth.controller";
 import passport from "passport";
@@ -30,6 +30,7 @@ const webRoutes = (app: Express) => {
     //client route
     router.get("/car/:id", getProductPage)
     router.get("/404page", get404page)
+    router.get("/cars", getCarsPage)
 
     //admin route
     router.get("/admin", getDashboardPage)
