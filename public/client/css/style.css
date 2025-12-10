@@ -579,3 +579,9 @@
 .book-now-btn:hover i {
     color: white;
 }
+
+.description1 {
+    white-space: pre-wrap;
+    line-height: 1.6;
+    word-break: break-word;
+}

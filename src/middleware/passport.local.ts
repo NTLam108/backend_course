@@ -1,6 +1,6 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local"
-import { getUserWithRolebyID, handleLogin } from "services/auth.service";
+import { getUserSumCart, getUserWithRolebyID, handleLogin } from "services/auth.service";
 
 
 const configPassportLocal = () => {
@@ -26,8 +26,9 @@ const configPassportLocal = () => {
     passport.deserializeUser(async function (user: any, callback) {
         const { id, username } = user
         //querry to database
-        const userInDB = await getUserWithRolebyID(id)
-        return callback(null, { ...userInDB });
+        const userInDB: any = await getUserWithRolebyID(id)
+        const sumCart = await getUserSumCart(id)
+        return callback(null, { ...userInDB, sumCart: sumCart });
     });
 }
 

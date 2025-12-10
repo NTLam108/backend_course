@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="VietNam Rent a Car" />
+    <meta name="author" content="Lam Voi" />
+    <title>Manage Accessory - Admin</title>
+    <link href="/admin/css/styles.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="sb-nav-fixed">
+    <%- include('../layout/header'); -%>
+        <div id="layoutSidenav">
+            <%- include('../layout/sidenav'); -%>
+                <div id="layoutSidenav_content">
+                    <main>
+                        <div class="container-fluid px-4">
+                            <h1 class="mt-4">Manage accessory:</h1>
+                            <ol class="breadcrumb mb-4">
+                                <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+                                <li class="breadcrumb-item active">Accessories</li>
+                            </ol>
+                            <div>
+                                <div
+                                    style="display: flex; justify-content: space-between; margin-top: 50px; align-items: center;">
+                                    <div style="padding-left: 20px">
+                                        <h3>Table Car:
+                                        </h3>
+                                    </div>
+                                    <div style="padding-right: 20px;">
+                                        <a href="/admin/create-tool" class="btn btn-warning">Create an Accessory</a>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div style="margin: 20px;">
+                                    <table class="table table-hover table-bordered">
+                                        <thead>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Price</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </thead>
+                                        <tbody>
+                                            <% tools.forEach( function (tool) { %>
+                                                <tr>
+                                                    <td>
+                                                        <%= tool.id%>
+                                                    </td>
+                                                    <td>
+                                                        <%= tool.name%>
+                                                    </td>
+                                                    <td>
+                                                        <%= tool.price%>
+                                                    </td>
+                                                    <td>
+                                                        <%= tool.status%>
+                                                    </td>
+                                                    <td>
+                                                        <div style="display: flex; gap: 10px;">
+                                                            <form action="/admin/handle-view-tool/<%=tool.id%>"
+                                                                method="get">
+                                                                <button type="submit"
+                                                                    class="btn btn-warning">View</button>
+                                                            </form>
+                                                            <form action="/admin/handle-delete-tool/<%=tool.id%>"
+                                                                method="post">
+                                                                <button type="submit"
+                                                                    class="btn btn-danger">Delete</button>
+                                                            </form>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <% }) %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                    <%- include('../layout/footer'); -%>
+                </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+            crossorigin="anonymous"></script>
+        <script src="/admin/js/scripts.js"></script>
+</body>
+
+</html>

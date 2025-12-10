@@ -94,19 +94,21 @@
                                                                             <%=car.name%>
                                                                     </a>
                                                                 </h4>
-                                                                <div
-                                                                    class="d-flex justify-content-between flex-lg-wrap">
+                                                                <div class="d-flex justify-content-center flex-lg-wrap">
                                                                     <p style="font-size: 15px; text-align: center; width: 100%; color:black;"
                                                                         class="fs-5 fw-bold mb-0">
                                                                         <%= new Intl.NumberFormat('vi-VN', {
                                                                             style: 'currency' , currency: 'VND'
                                                                             }).format(car.priceperday) %>/day
                                                                     </p>
-                                                                    <a href="#"
-                                                                        class="mx-auto mt-2 btn book-now-btn rounded-pill px-3"
-                                                                        style="border-color: black !important;"><i
-                                                                            class="fa-solid fa-car-side me-2"></i>
-                                                                        Book Now</a>
+                                                                    <form method="post"
+                                                                        action="/add-car-to-cart/<%=car.id%>">
+                                                                        <button
+                                                                            class="mx-auto mt-2 btn book-now-btn rounded-pill px-3"
+                                                                            style="border-color: black !important;"><i
+                                                                                class="fa-solid fa-car-side me-2"></i>
+                                                                            Book Now</button>
+                                                                    </form>
                                                                 </div>
                                                             </div>
                                                         </div>

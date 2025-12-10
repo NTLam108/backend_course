@@ -31,25 +31,28 @@
                 <div class="navbar-nav mx-auto">
                     <a href="/" class="nav-item nav-link active">Home</a>
                     <a href="/cars" class="nav-item nav-link active">Our Cars</a>
+                    <a href="/tool" class="nav-item nav-link active">Accessories</a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Pages</a>
                         <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                            <a href="cart.html" class="dropdown-item">Cau be</a>
-                            <a href="chackout.html" class="dropdown-item">Tliet 6sao</a>
+                            <a href="/checkout" class="dropdown-item">Checkout</a>
+                            <a href="/cart" class="dropdown-item">Cart</a>
                             <a href="/404page" class="dropdown-item">404 page</a>
                         </div>
                     </div>
-                    <a href="contact.html" class="nav-item nav-link active">About Us</a>
+                    <a href="/contact" class="nav-item nav-link active">About Us</a>
                 </div>
                 <div class="d-flex m-3 me-0">
                     <button class="btn-search btn border border-dark btn-md-square rounded-circle bg-white me-4"
                         data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search"
                             style="color: black;"></i></button>
-                    <a href="#" class="position-relative me-4 my-auto">
+                    <a href="/cart" class="position-relative me-4 my-auto">
                         <i class="fa fa-shopping-bag fa-2x"></i>
                         <span
                             class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
-                            style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
+                            style="top: -5px; left: 15px; height: 20px; min-width: 20px;">
+                            <%= user?.sumCart ?? 0%>
+                        </span>
                     </a>
 
                     <% if(user){ %>
