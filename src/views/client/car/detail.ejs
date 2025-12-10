@@ -56,7 +56,6 @@
         </div>
         <!-- Single Page Header End -->
 
-
         <!-- Single Product Start -->
         <div class="container-fluid py-5 mt-5">
             <div class="container py-5">
@@ -86,11 +85,8 @@
                                     <i class="fa fa-star text-secondary"></i>
                                     <i class="fa fa-star text-secondary"></i>
                                     <i class="fa fa-star text-secondary"></i>
-                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star text-secondary"></i>
                                 </div>
-                                <p class="mb-4">
-                                    <%=car.detailCar%>
-                                </p>
 
                                 <div class="input-group quantity mb-5" style="width: 100px;">
                                     <div class="input-group-btn">
@@ -119,14 +115,17 @@
                                             style="color: black !important;">Description</button>
                                         <button class="nav-link border-white border-bottom-0" type="button" role="tab"
                                             id="nav-mission-tab" data-bs-toggle="tab" data-bs-target="#nav-mission"
-                                            aria-controls="nav-mission" aria-selected="false">Reviews</button>
+                                            aria-controls="nav-mission" aria-selected="false"
+                                            style="color: black !important;">Reviews</button>
                                     </div>
                                 </nav>
                                 <div class="tab-content mb-5">
                                     <div class="tab-pane active" id="nav-about" role="tabpanel"
                                         aria-labelledby="nav-about-tab">
                                         <p>
+                                        <div class="description1">
                                             <%=car.detailCar%>
+                                        </div>
                                         </p>
                                     </div>
 

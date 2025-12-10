@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="VietNam Rent a Car" />
+    <meta name="author" content="LamVoi" />
+    <title>Manage Accessory - Admin</title>
+    <link href="/admin/css/styles.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(() => {
+            const avatarFile = $("#avatarFile");
+            avatarFile.change(function (e) {
+                const imgURL = URL.createObjectURL(e.target.files[0]);
+                $("#avatarPreview").attr("src", imgURL);
+                $("#avatarPreview").css({ "display": "block" });
+            });
+        }); 
+    </script>
+</head>
+
+<body class="sb-nav-fixed">
+    <%- include('../layout/header'); -%>
+        <div id="layoutSidenav">
+            <%- include('../layout/sidenav'); -%>
+                <div id="layoutSidenav_content">
+                    <main>
+                        <div class="container-fluid px-4">
+                            <h1 class="mt-4">Manage Accessory</h1>
+                            <ol class="breadcrumb mb-4">
+                                <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+                                <li class="breadcrumb-item active">Accessories</li>
+                            </ol>
+                            <div style="width: 40%; margin: auto">
+
+                                <h4 style="padding: 20px 0;">View detail an accessory: </h4>
+
+                                <form action="/admin/update-tool" method="post" enctype="multipart/form-data">
+                                    <input value="<%= tool.id%>" name="id" type="text" style="display: none;">
+                                    <div class="mb-3">
+                                        <label class="form-label">Accessory's name</label>
+                                        <input value="<%= tool.name %>" name="name" type="text" class="form-control"
+                                            placeholder="Your Car's name">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Price</label>
+                                        <input value="<%=tool.price%>" name="price" class="form-control"
+                                            placeholder="vnd/day">
+                                    </div>
+                                    <div class="row">
+                                        <div class="mb-3 col-6">
+                                            <label class="form-label">Status</label>
+                                            <select name="status" class="form-select">
+                                                <% statusOptions.forEach((statusOption,index)=> { %>
+                                                    <option value="<%-statusOption.value %>"
+                                                        <%=statusOption.value===tool.status ? 'selected' : '' %>>
+                                                        <%- statusOption.name %>
+                                                    </option>
+                                                    <%})%>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3 col-6">
+                                            <label class="form-label">Quantity</label>
+                                            <input value="<%=tool.quantity%>" type="text" class="form-control"
+                                                placeholder="Qty" name="quantity">
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="formFile" class="form-label">Accessory's Images</label>
+                                        <input class="form-control" type="file" id="avatarFile" name="accessoryImage"
+                                            accept=".png, .jpg, .jpeg">
+                                    </div>
+                                    <% if (tool.imgTool) { %>
+                                        <img style="max-height: 250px; display: block;" alt="avatar preview"
+                                            id="avatarPreview" src="/images/tool-img/<%=tool.imgTool%>" />
+                                        <% } else { %>
+                                            <img style="max-height: 250px; display: none;" alt="Car Image"
+                                                id="toolPreview" />
+                                            <% } %>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Accessory's Detail</label>
+                                                    <textarea name="descTool" class="form-control"
+                                                        rows="6"><%=tool.descTool%></textarea>
+                                                </div>
+
+                                                <div>
+                                                    <button type="submit" class="btn btn-warning mt-3">Update</button>
+                                                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </main>
+                    <%- include('../layout/footer'); -%>
+                </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+            crossorigin="anonymous"></script>
+        <script src="/admin/js/scripts.js"></script>
+</body>
+
+</html>

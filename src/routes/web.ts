@@ -1,13 +1,14 @@
 import express from "express";
 import { Express } from "express"
 import { getCreateUserpage, getHomepage, getViewUser, postCreateUserpage, postDeleteUser, postUpdateUser } from "controllers/user.controller";
-import { getAdminCarPage, getAdminRentalPage, getAdminUserPage, getDashboardPage } from "controllers/admin/dashboard.controller";
+import { getAdminCarPage, getAdminRentalPage, getAdminToolPage, getAdminUserPage, getCreateTool, getDashboardPage, getViewTool, postCreateTool, postDeleteTool, postUpdateTool } from "controllers/admin/dashboard.controller";
 import fileUploadMiddleware from "src/middleware/multer";
-import { get404page, getCarsPage, getProductPage } from "controllers/client/client.controller";
+import { get404page, getCarsPage, getCheckoutPage, getContactPage, getProductPage, getToolPage } from "controllers/client/client.controller";
 import { getCreateCarPage, getViewCar, postCreateCar, postDeleteCar, postUpdateCar } from "controllers/admin/car.controller";
 import { getLoginPage, getRegisterPage, getSuccessRedirectPage, postLogout, postRegister } from "controllers/client/auth.controller";
 import passport from "passport";
 import { isAdmin, isLogin } from "src/middleware/auth";
+import { getCartPage, postAddCartoCart } from "controllers/client/product.controller";
 const router = express.Router();
 
 const webRoutes = (app: Express) => {
@@ -31,6 +32,9 @@ const webRoutes = (app: Express) => {
     router.get("/car/:id", getProductPage)
     router.get("/404page", get404page)
     router.get("/cars", getCarsPage)
+    //client cart
+    router.post("/add-car-to-cart/:id", postAddCartoCart)
+    router.get("/cart", getCartPage)
 
     //admin route
     router.get("/admin", getDashboardPage)
@@ -50,8 +54,18 @@ const webRoutes = (app: Express) => {
     router.post("/admin/update-car", fileUploadMiddleware("carImage", "images/car-img"), postUpdateCar)
     //rental
     router.get("/admin/rental", getAdminRentalPage)
+    router.get("/checkout", getCheckoutPage)
+    router.get("/contact", getContactPage)
+    //tool
+    router.get("/admin/tool", getAdminToolPage)
+    router.get("/tool", getToolPage)
+    router.get("/admin/create-tool", getCreateTool)
+    router.post("/admin/create-tool", fileUploadMiddleware("accessoryImage", "images/tool-img"), postCreateTool);
+    router.post("/admin/handle-delete-tool/:id", postDeleteTool)
+    router.get("/admin/handle-view-tool/:id", getViewTool)
+    router.post("/admin/update-tool", fileUploadMiddleware("accessoryImage", "images/tool-img"), postUpdateTool);
 
-
+    //root route
     app.use("/", isAdmin, router)   // "/" == website bat dau tu duong dan nay
 
 }
