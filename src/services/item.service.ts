@@ -109,4 +109,100 @@ const showCartDetail = async (id: number) => {
     return [];
 }
 
-export { getItemCar, getCarById, handleAddtoCart, showCartDetail }
+const handleDeleteProduct = async (id: number, sumCart: number) => {
+    const deletecart = await prisma.cartDetail.delete({
+        where: { id: id }
+    })
+
+    const currentCart = await prisma.cart.findUnique({
+        where: { id: deletecart.cartId }
+    })
+
+    if (sumCart > 1) {
+        await prisma.cart.update({
+            where: { id: currentCart.id },
+            data: {
+                sum: currentCart.sum - deletecart.quantity,
+            }
+        })
+    } else {
+        await prisma.cart.delete({
+            where: { id: currentCart.id }
+        })
+    }
+}
+
+const updateCartDetailBeforeCheckout = async (data: { id: string; quantity: string }[]) => {
+    for (let i = 0; i < data.length; i++) {
+        await prisma.cartDetail.update({
+            where: {
+                id: +(data[i].id)
+            },
+            data: {
+                quantity: +(data[i].quantity)
+            }
+        })
+    }
+}
+
+const handlePlaceOrder = async (
+    userId: number,
+    renterName: string,
+    renterAddress: string,
+    renterPhone: string,
+    pickupDate: string,
+    dropoffDate: string,
+    pickupPlace: string,
+    thanhTien: number
+) => {
+    const cart = await prisma.cart.findUnique({
+        where: { userId },
+        include: {
+            cartDetails: true
+        }
+    })
+
+    if (cart) {
+
+        const dataRentalDetail = cart?.cartDetails?.map(
+            item => ({
+                price: item.price,
+                quantity: item.quantity,
+                carId: item.carId
+            })
+        ) ?? []
+        //Tạo Order mới
+        await prisma.rental.create({
+            data: {
+                renterName: renterName,
+                renterAddress: renterAddress,
+                renterPhone: renterPhone,
+                pickupdate: pickupDate.toString(),
+                dropoffdate: dropoffDate.toString(),
+                pickupplace: pickupPlace,
+                totalPrice: thanhTien,
+                paymentMethod: "COD",
+                paymentStatus: "PAYMENT_UNPAID",
+                status: "PENDING",
+                userId: userId,
+                rentalDetails: {
+                    create: dataRentalDetail
+                }
+            },
+        })
+
+        //Xóa cart + cartDetail
+        await prisma.cartDetail.deleteMany({
+            where: { cartId: cart.id }
+        })
+        await prisma.cart.delete({
+            where: { id: cart.id }
+        })
+    }
+
+}
+
+
+
+
+export { getItemCar, getCarById, handleAddtoCart, showCartDetail, handleDeleteProduct, updateCartDetailBeforeCheckout, handlePlaceOrder }
