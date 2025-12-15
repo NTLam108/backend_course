@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import { getAllCars } from "services/car.service";
-import { getCarById } from "services/item.service";
+import { getCarById, showCartDetail } from "services/item.service";
 import { getAllTool } from "services/tool.service";
 
 
@@ -23,8 +23,19 @@ const getCarsPage = async (req: Request, res: Response) => {
     });
 }
 
-const getCheckoutPage = (req: Request, res: Response) => {
-    return res.render("client/rental/detail.ejs");
+const getCheckoutPage = async (req: Request, res: Response) => {
+    const user = req.user;
+    if (!user) {
+        return res.redirect("/login");
+    }
+
+    const cartDetails = await showCartDetail(user.id);
+
+    const totalPrice = cartDetails?.map(item => item.quantity * item.price)?.reduce((a, b) => a + b, 0);
+
+    return res.render("client/rental/checkout.ejs", {
+        cartDetails, totalPrice
+    })
 }
 const getContactPage = (req: Request, res: Response) => {
     return res.render("client/other/contact.ejs");
@@ -36,6 +47,10 @@ const getToolPage = async (req: Request, res: Response) => {
     });
 }
 
+const postToolToCart = () => {
+
+}
 
 
-export { getProductPage, get404page, getCarsPage, getCheckoutPage, getContactPage, getToolPage }
+
+export { getProductPage, get404page, getCarsPage, getCheckoutPage, getContactPage, getToolPage, postToolToCart }

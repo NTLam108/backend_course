@@ -3,12 +3,12 @@ import { Express } from "express"
 import { getCreateUserpage, getHomepage, getViewUser, postCreateUserpage, postDeleteUser, postUpdateUser } from "controllers/user.controller";
 import { getAdminCarPage, getAdminRentalPage, getAdminToolPage, getAdminUserPage, getCreateTool, getDashboardPage, getViewTool, postCreateTool, postDeleteTool, postUpdateTool } from "controllers/admin/dashboard.controller";
 import fileUploadMiddleware from "src/middleware/multer";
-import { get404page, getCarsPage, getCheckoutPage, getContactPage, getProductPage, getToolPage } from "controllers/client/client.controller";
+import { get404page, getCarsPage, getCheckoutPage, getContactPage, getProductPage, getToolPage, postToolToCart } from "controllers/client/client.controller";
 import { getCreateCarPage, getViewCar, postCreateCar, postDeleteCar, postUpdateCar } from "controllers/admin/car.controller";
 import { getLoginPage, getRegisterPage, getSuccessRedirectPage, postLogout, postRegister } from "controllers/client/auth.controller";
 import passport from "passport";
 import { isAdmin, isLogin } from "src/middleware/auth";
-import { getCartPage, postAddCartoCart } from "controllers/client/product.controller";
+import { getCartPage, getThanksPage, postAddCartoCart, postDeleteProductInCart, postHandleCartToCheckOut, postPlaceOrder } from "controllers/client/product.controller";
 const router = express.Router();
 
 const webRoutes = (app: Express) => {
@@ -35,6 +35,10 @@ const webRoutes = (app: Express) => {
     //client cart
     router.post("/add-car-to-cart/:id", postAddCartoCart)
     router.get("/cart", getCartPage)
+    router.post("/delete-product-in-cart/:id", postDeleteProductInCart)
+    router.post("/handle-cart-to-checkout", postHandleCartToCheckOut)
+    router.post("/place-order", postPlaceOrder)
+    router.get("/thanks", getThanksPage)
 
     //admin route
     router.get("/admin", getDashboardPage)
@@ -64,6 +68,7 @@ const webRoutes = (app: Express) => {
     router.post("/admin/handle-delete-tool/:id", postDeleteTool)
     router.get("/admin/handle-view-tool/:id", getViewTool)
     router.post("/admin/update-tool", fileUploadMiddleware("accessoryImage", "images/tool-img"), postUpdateTool);
+    router.post("/add-tool-to-cart/:id", postToolToCart)
 
     //root route
     app.use("/", isAdmin, router)   // "/" == website bat dau tu duong dan nay

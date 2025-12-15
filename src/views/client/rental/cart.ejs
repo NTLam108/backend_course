@@ -85,7 +85,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <% cartDetails.forEach( function (cartDetail) { %>
+                            <% cartDetails.forEach( function (cartDetail, index) { %>
                                 <tr>
                                     <th scope="row">
                                         <div class="d-flex align-items-center">
@@ -117,7 +117,9 @@
                                             <input type="text" class="form-control form-control-sm text-center border-0"
                                                 value="<%=cartDetail.quantity%>"
                                                 data-cart-detail-id="<%=cartDetail.id %>"
-                                                data-cart-detail-price="<%=cartDetail.price %>" />
+                                                data-cart-detail-price="<%=cartDetail.price %>"
+                                                data-cart-detail-index="<%=index%>" />
+
                                             <div class="input-group-btn">
                                                 <button class="btn btn-sm btn-plus rounded-circle bg-light border">
                                                     <i class="fa fa-plus"></i>
@@ -132,111 +134,114 @@
                                         </p>
                                     </td>
                                     <td>
-                                        <button class="btn btn-md rounded-circle bg-light border mt-4">
-                                            <i class="fa fa-times text-danger"></i>
-                                        </button>
+                                        <form method="post" action="/delete-product-in-cart/<%=cartDetail.id%>">
+                                            <button class="btn btn-md rounded-circle bg-light border mt-4">
+                                                <i class="fa fa-times text-danger"></i>
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                                 <% }) %>
+                                    <%if (user?.sumCart===0) { %>
+                                        <tr>
+                                            <td colspan="6">Oops! Bạn chưa chọn bất kỳ sản phẩm nào của chúng tôi !!!
+                                            </td>
+                                        </tr>
+                                        <%}%>
                         </tbody>
                     </table>
                 </div>
-                <div class="mt-5 row g-4 justify-content-start">
-                    <div class="col-12 col-md-8" style="width: 100% !important;">
-                        <div class="bg-light rounded">
-                            <div class="p-4">
-                                <h1 class="display-6 mb-4">Gợi ý sản phẩm:</h1>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mt-5 row g-4 justify-content-end">
-                        <div class="col-12 col-md-8">
+                <%if (user?.sumCart>0) { %>
+                    <div class="mt-5 row g-4 justify-content-start">
+                        <div class="col-12 col-md-8" style="width: 100% !important;">
                             <div class="bg-light rounded">
                                 <div class="p-4">
-                                    <h1 class="display-6 mb-4">Thông tin thuê xe</h1>
-                                    <div class="d-flex justify-content-between mb-4">
-                                        <h5 class="mb-0 me-4">Tổng giá tiền thuê 1 ngày:</h5>
-                                        <p class="mb-0" data-cart-total-price="<%=totalPrice%>">
-                                            <%= new Intl.NumberFormat('vi-VN', { style: 'currency' , currency: 'VND'
-                                                }).format(totalPrice) %>
-                                        </p>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12 col-lg-6">
-                                            <div class="form-item">
-                                                <label class="form-label my-3">Ngày nhận xe<sup>*</sup></label>
-                                                <div class="input-group date" id="pickupdate">
-                                                    <input type="text" class="form-control" placeholder="dd/mm/yyyy" />
-                                                    <span class="input-group-addon">
-                                                        <i class="glyphicon glyphicon-calendar"></i>
-                                                    </span>
-                                                </div>
-                                            </div>
+                                    <h1 class="display-6 mb-4">Gợi ý sản phẩm:</h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-5 row g-4 justify-content-end">
+                            <div class="col-12 col-md-6">
+                                <div class="bg-light rounded">
+                                    <div class="p-4">
+                                        <div class="d-flex justify-content-between mb-4">
+                                            <h5 class="mb-0 me-4">Tổng giá tiền thuê 1 ngày:</h5>
+                                            <p class="mb-0" data-cart-total-price="<%=totalPrice%>">
+                                                <%= new Intl.NumberFormat('vi-VN', { style: 'currency' , currency: 'VND'
+                                                    }).format(totalPrice) %>
+                                            </p>
                                         </div>
-
-                                        <div class="col-md-12 col-lg-6">
-                                            <div class="form-item">
-                                                <label class="form-label my-3">Ngày trả xe<sup>*</sup></label>
-                                                <div class="input-group date" id="dropoffdate">
-                                                    <input type="text" class="form-control" placeholder="dd/mm/yyyy" />
-                                                    <span class="input-group-addon">
-                                                        <i class="glyphicon glyphicon-calendar"></i>
-                                                    </span>
-                                                </div>
+                                        <form method="post" action="/handle-cart-to-checkout">
+                                            <div style="display: none">
+                                                <% cartDetails.forEach( function (cartDetail, index) { %>
+                                                    <div class="mb-3">
+                                                        <div class="form-group">
+                                                            <label>Id:</label>
+                                                            <input class="form-control" type="text"
+                                                                value="<%=cartDetail.id %>"
+                                                                name="cartDetails[<%= index %>][id]" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Quantity:</label>
+                                                            <input class="form-control" type="text"
+                                                                value="<%=cartDetail.quantity %>"
+                                                                name="cartDetails[<%= index %>][quantity]"
+                                                                id="cartDetails[<%= index %>]" />
+                                                        </div>
+                                                    </div>
+                                                    <% }) %>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="py-4 mb-4 border-top border-bottom">
-                                        <label class="form-label my-3">Địa điểm nhận xe<sup>*</sup></label>
-                                        <input type="text" class="form-control">
+                                            <button
+                                                class="mx-auto mb-4 ms-4 btn book-now-btn rounded-pill px-4 py-3 text-uppercase"
+                                                style="border-color: black !important;" type="submit">Thanh
+                                                toán</button>
+                                        </form>
                                     </div>
                                 </div>
-
-                                <button class="mx-auto mb-4 ms-4 btn book-now-btn rounded-pill px-4 py-3 text-uppercase"
-                                    style="border-color: black !important;" type="button">Thanh toán</button>
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
-            <!-- Cart Page End -->
+            <%}%>
+        </div>
+        <!-- Cart Page End -->
 
 
-            <!-- Footer Start -->
-            <%- include('../layout/footer'); -%>
-                <!-- Footer End -->
+        <!-- Footer Start -->
+        <%- include('../layout/footer'); -%>
+            <!-- Footer End -->
 
 
-                <!-- Back to Top -->
-                <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i
-                        class="fa fa-arrow-up"></i></a>
+            <!-- Back to Top -->
+            <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i
+                    class="fa fa-arrow-up"></i></a>
 
-                <script>
-                    $('#pickupdate').datepicker({
-                        format: 'dd/mm/yyyy',
-                        autoclose: true,
-                        orientation: "bottom auto"
-                    });
-                </script>
-                <script>
-                    $('#dropoffdate').datepicker({
-                        format: 'dd/mm/yyyy',
-                        autoclose: true,
-                        orientation: "bottom auto"
-                    });
-                </script>
+            <script>
+                $('#pickupdate').datepicker({
+                    format: 'dd/mm/yyyy',
+                    autoclose: true,
+                    orientation: "bottom auto"
+                });
+            </script>
+            <script>
+                $('#dropoffdate').datepicker({
+                    format: 'dd/mm/yyyy',
+                    autoclose: true,
+                    orientation: "bottom auto"
+                });
+            </script>
 
 
-                <!-- JavaScript Libraries -->
-                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-                <script src="/client/lib/easing/easing.min.js"></script>
-                <script src="/client/lib/waypoints/waypoints.min.js"></script>
-                <script src="/client/lib/lightbox/js/lightbox.min.js"></script>
-                <script src="/client/lib/owlcarousel/owl.carousel.min.js"></script>
+            <!-- JavaScript Libraries -->
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="/client/lib/easing/easing.min.js"></script>
+            <script src="/client/lib/waypoints/waypoints.min.js"></script>
+            <script src="/client/lib/lightbox/js/lightbox.min.js"></script>
+            <script src="/client/lib/owlcarousel/owl.carousel.min.js"></script>
 
-                <!-- Template Javascript -->
-                <script src="/client/js/main.js"></script>
+            <!-- Template Javascript -->
+            <script src="/client/js/main.js"></script>
 </body>
 
 </html>

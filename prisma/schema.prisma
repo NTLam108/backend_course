@@ -30,11 +30,11 @@ model User {
   accountType String  @db.VarChar(255)
   avatar      String? @db.VarChar(255)
 
-  role          Role            @relation(fields: [roleId], references: [id])
-  roleId        Int
-  ratings       rating[]
-  rentalDetails Rental_detail[]
-  cart          Cart?
+  role    Role     @relation(fields: [roleId], references: [id])
+  roleId  Int
+  ratings rating[]
+  cart    Cart?
+  rentals Rental[]
 
   @@map("users")
 }
@@ -50,22 +50,34 @@ model Role {
 }
 
 model Rental_detail {
-  id           Int      @id @default(autoincrement())
-  pickupdate   DateTime
-  dropoffdate  DateTime
-  pickupplace  String   @db.VarChar(255)
-  dropoffplace String   @db.VarChar(255)
+  id       Int @id @default(autoincrement())
+  price    Int
+  quantity Int
 
-  rentername User @relation(fields: [userId], references: [id])
-  userId     Int
+  rental   Rental @relation(fields: [rentalId], references: [id])
+  rentalId Int
 
-  carname Car @relation(fields: [carId], references: [id])
-  carId   Int
+  car   Car @relation(fields: [carId], references: [id])
+  carId Int
 }
 
 model Rental {
-  id         Int @id @default(autoincrement())
-  totalPrice Int
+  id            Int             @id @default(autoincrement())
+  totalPrice    Int
+  pickupdate    String          @db.VarChar(255)
+  dropoffdate   String          @db.VarChar(255)
+  pickupplace   String          @db.VarChar(255)
+  renterName    String          @db.VarChar(255)
+  renterAddress String          @db.VarChar(255)
+  renterPhone   String          @db.VarChar(255)
+  status        String          @default("PENDING")
+  paymentMethod String          @db.VarChar(255)
+  paymentStatus String          @db.VarChar(255)
+  paymentRef    String?
+  rentalDetails Rental_detail[]
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
 
   @@map("rentals")
 }
@@ -81,8 +93,8 @@ model Car {
   brand         String          @db.VarChar(255)
   engine        String          @db.VarChar(255)
   status        String          @db.VarChar(100)
-  rentalDetails Rental_detail[]
   cartDetails   CartDetail[]
+  rentalDetails Rental_detail[]
 
   @@map("cars")
 }
