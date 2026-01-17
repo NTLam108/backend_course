@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { syncBuiltinESMExports } from "module";
 import { handleAddtoCart, handleDeleteProduct, handlePlaceOrder, showCartDetail, updateCartDetailBeforeCheckout } from "services/item.service";
+import { handleGetToolSuitable } from "services/rental.service";
 
 
 const postAddCartoCart = async (req: Request, res: Response) => {
@@ -26,8 +27,10 @@ const getCartPage = async (req: Request, res: Response) => {
 
     const totalPrice = cartDetails?.map(item => item.quantity * item.price)?.reduce((a, b) => a + b, 0);
 
+    const suitableTools = await handleGetToolSuitable(user.id);
+
     return res.render("client/rental/cart.ejs", {
-        cartDetails, totalPrice
+        cartDetails, totalPrice, suitableTools
     })
 }
 
@@ -57,7 +60,7 @@ const postPlaceOrder = async (req: Request, res: Response) => {
     if (!user) return res.redirect("/login")
 
     const { renterName, renterAddress, renterPhone, pickupDate, dropoffDate, pickupPlace, thanhTien } = req.body
-    await handlePlaceOrder(user.id, renterName, renterAddress, renterPhone, pickupDate, dropoffDate, pickupPlace, +thanhTien)
+    await handlePlaceOrder(user.id, renterName, renterAddress, renterPhone, pickupDate, dropoffDate, pickupPlace, thanhTien)
 
     return res.redirect("/thanks")
 }

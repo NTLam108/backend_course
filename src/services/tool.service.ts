@@ -13,7 +13,8 @@ const handleCreateTool = async (
     quantity: number,
     status: string,
     descTool: string,
-    imgTool: string
+    imgTool: string,
+    suitable_for: string
 ) => {
     const newTool = await prisma.carTool.create({
         data: {
@@ -22,7 +23,8 @@ const handleCreateTool = async (
             quantity: quantity,
             status: status,
             descTool: descTool,
-            imgTool: imgTool
+            imgTool: imgTool,
+            suitable_for: suitable_for
         }
     })
     return newTool;

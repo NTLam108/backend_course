@@ -109,13 +109,14 @@ model rating {
 }
 
 model carTool {
-  id       Int     @id @default(autoincrement())
-  name     String? @db.VarChar(255)
-  descTool String  @db.MediumText
-  price    Int
-  quantity Int
-  status   String  @db.VarChar(100)
-  imgTool  String? @db.VarChar(255)
+  id           Int     @id @default(autoincrement())
+  name         String? @db.VarChar(255)
+  descTool     String  @db.MediumText
+  price        Int
+  quantity     Int
+  status       String  @db.VarChar(100)
+  imgTool      String? @db.VarChar(255)
+  suitable_for String?
 }
 
 model Cart {

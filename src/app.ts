@@ -9,6 +9,7 @@ import configPassportLocal from "src/middleware/passport.local";
 import session from "express-session";
 import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 import { PrismaClient } from '@prisma/client';
+import Groq from "groq-sdk";
 const app = express(); //tao express application
 const PORT = process.env.PORT || 8080; //init port
 //neu process.env.PORT undefined thi se lay gia tri 8080
@@ -16,6 +17,10 @@ const PORT = process.env.PORT || 8080; //init port
 // khai bao route
 // req (request), res (response) la 2 object trong moi truong Node.js
 
+//Khởi tạo Groq Client
+const groq = new Groq({
+    apiKey: process.env.GROQ_API_KEY,
+});
 //config view engine
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
@@ -55,6 +60,26 @@ app.use((req, res, next) => {
     next();
 });
 
+//Tạo route cho Chatbot
+app.post('/api/chat', async (req, res) => {
+    try {
+        const { message } = req.body;
+        const chatCompletion = await groq.chat.completions.create({
+            messages: [
+                { role: "system", content: "Bạn là một trợ lý AI hữu ích được tích hợp trong website VietNam Rent-a-Car." },
+                { role: "user", content: message }
+            ],
+            model: "llama-3.3-70b-versatile"
+        });
+
+        const reply = chatCompletion.choices[0]?.message?.content || "";
+        res.json({ reply });
+    }
+    catch (error) {
+        console.log("Groq Error: ", error);
+        res.status(500).json({ reply: "Không thể kết nối với AI" })
+    };
+});
 
 //config routes
 webRoutes(app);

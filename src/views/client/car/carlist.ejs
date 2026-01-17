@@ -224,20 +224,27 @@
                                             </div>
                                         </div>
                                         <% }) %>
-                                            <div class="col-12">
-                                                <div class="pagination mt-5"
-                                                    style="display: flex; justify-content:center; gap: 10px;">
-                                                    <button href="#" class="rounded btn book-now-btn">&laquo;</button>
-                                                    <button href="#" class="active rounded btn book-now-btn">1</button>
-                                                    <button href="#" class="rounded btn book-now-btn">2</button>
-                                                    <button href="#" class="rounded btn book-now-btn">3</button>
-                                                    <button href="#" class="rounded btn book-now-btn">4</button>
-                                                    <button href="#" class="rounded btn book-now-btn">5</button>
-                                                    <button href="#" class="rounded btn book-now-btn">6</button>
-                                                    <button href="#" class="rounded btn book-now-btn">&raquo;</button>
-                                                </div>
-                                            </div>
                                 </div>
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination custom-pagination d-flex justify-content-center mt-3">
+                                        <li class="page-item">
+                                            <a class="page-link" href="#" aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+                                        <li class="page-item"><a class="page-link" href="/cars?page=1">1</a>
+                                        </li>
+                                        <li class="page-item"><a class="page-link" href="/cars?page=2">2</a>
+                                        </li>
+                                        <li class="page-item"><a class="page-link" href="/cars?page=3">3</a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#" aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
                             </div>
                         </div>
                     </div>
@@ -266,6 +273,7 @@
 
                 <!-- Template Javascript -->
                 <script src="client/js/main.js"></script>
+                <script src="/client/js/chat.js"></script>
 </body>
 
 </html>

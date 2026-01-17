@@ -585,3 +585,22 @@
     line-height: 1.6;
     word-break: break-word;
 }
+/* Trạng thái mặc định */
+.custom-pagination .page-link {
+    color: black;            /* Chữ màu đen */
+    background-color: white; /* Nền trắng */
+    border: 1px solid black; /* Viền đen */
+    transition: all 0.3s;    /* Hiệu ứng chuyển đổi mượt mà */
+}
+
+/* Trạng thái khi di chuột (Hover) */
+.custom-pagination .page-link:hover {
+    background-color: black; /* Nền đen */
+    color: white;            /* Chữ trắng */
+    border-color: white;     /* Viền trắng */
+}
+
+/* Tùy chọn: Xử lý khi nút được focus (click vào) để không bị xanh mặc định của Bootstrap */
+.custom-pagination .page-link:focus {
+    box-shadow: 0 0 0 0.25rem rgba(0, 0, 0, 0.25); /* Đổi shadow sang màu xám đen */
+}

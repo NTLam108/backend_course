@@ -24,7 +24,70 @@
                                 <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
                                 <li class="breadcrumb-item active">Rentals</li>
                             </ol>
-                            <div>table rental</div>
+                            <hr />
+                            <div style="margin: 20px;">
+                                <table class="table table-hover table-bordered">
+                                    <thead>
+                                        <th>ID</th>
+                                        <th>User</th>
+                                        <th>Renter's name</th>
+                                        <th>Total Price</th>
+                                        <th>Pickup Date</th>
+                                        <th>Dropoff Date</th>
+                                        <th>Pickup Location</th>
+                                        <th>Status</th>
+                                        <th>Payment Method</th>
+                                        <th>Payment Status</th>
+                                        <th>Action</th>
+                                    </thead>
+                                    <tbody>
+                                        <% rentals.forEach( function (rental) { %>
+                                            <tr>
+                                                <td>
+                                                    <%= rental.id%>
+                                                </td>
+                                                <td>
+                                                    <%= rental.user.fullname%>
+                                                </td>
+                                                <td>
+                                                    <%=rental.renterName%>
+                                                </td>
+                                                <td>
+                                                    <%= new Intl.NumberFormat('vi-VN', { style: 'currency' ,
+                                                        currency: 'VND' }).format(rental.totalPrice) %>
+                                                </td>
+                                                <td>
+                                                    <%= rental.pickupdate%>
+                                                </td>
+                                                <td>
+                                                    <%= rental.dropoffdate%>
+                                                </td>
+                                                <td>
+                                                    <%= rental.pickupplace%>
+                                                </td>
+                                                <td>
+                                                    <%= rental.status%>
+                                                </td>
+                                                <td>
+                                                    <%= rental.paymentMethod%>
+                                                </td>
+                                                <td>
+                                                    <%= rental.paymentStatus%>
+                                                </td>
+                                                <td>
+                                                    <div style="display: flex; gap: 10px;">
+                                                        <form action="/handle-view-rental-detail/<%=rental.id%>"
+                                                            method="get">
+                                                            <button type="submit" class="btn btn-warning">View
+                                                                Detail</button>
+                                                        </form>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </main>
                     <%- include('../layout/footer'); -%>

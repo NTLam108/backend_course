@@ -14,6 +14,7 @@ const toolSchema = z.object({
         }),
     status: z.string().trim().min(1, { message: "Status không được để trống" }),
     descTool: z.string().trim().min(1, { message: "Thông tin phụ kiện không được để trống" }),
+    suitable_for: z.string().trim().min(1, { message: "Thông tin loại xe phù hợp không được để trống" })
 });
 
 export type TtoolSchema = z.infer<typeof toolSchema>;

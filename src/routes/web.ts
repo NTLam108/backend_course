@@ -1,7 +1,7 @@
 import express from "express";
 import { Express } from "express"
 import { getCreateUserpage, getHomepage, getViewUser, postCreateUserpage, postDeleteUser, postUpdateUser } from "controllers/user.controller";
-import { getAdminCarPage, getAdminRentalPage, getAdminToolPage, getAdminUserPage, getCreateTool, getDashboardPage, getViewTool, postCreateTool, postDeleteTool, postUpdateTool } from "controllers/admin/dashboard.controller";
+import { getAdminCarPage, getAdminRentalPage, getAdminToolPage, getAdminUserPage, getCreateTool, getDashboardPage, getViewRentalDetail, getViewTool, postCreateTool, postDeleteTool, postUpdateTool } from "controllers/admin/dashboard.controller";
 import fileUploadMiddleware from "src/middleware/multer";
 import { get404page, getCarsPage, getCheckoutPage, getContactPage, getProductPage, getToolPage, postToolToCart } from "controllers/client/client.controller";
 import { getCreateCarPage, getViewCar, postCreateCar, postDeleteCar, postUpdateCar } from "controllers/admin/car.controller";
@@ -60,6 +60,7 @@ const webRoutes = (app: Express) => {
     router.get("/admin/rental", getAdminRentalPage)
     router.get("/checkout", getCheckoutPage)
     router.get("/contact", getContactPage)
+    router.get("/handle-view-rental-detail/:id", getViewRentalDetail);
     //tool
     router.get("/admin/tool", getAdminToolPage)
     router.get("/tool", getToolPage)

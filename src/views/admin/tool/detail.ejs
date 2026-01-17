@@ -69,6 +69,17 @@
                                                 placeholder="Qty" name="quantity">
                                         </div>
                                     </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Suitable for</label>
+                                        <select name="suitable_for" class="form-select">
+                                            <% typeOptions.forEach((typeOption,index)=> { %>
+                                                <option value="<%-typeOption.value %>"
+                                                    <%=typeOption.value===tool.suitable_for ? 'selected' : '' %>>
+                                                    <%- typeOption.name %>
+                                                </option>
+                                                <%})%>
+                                        </select>
+                                    </div>
 
                                     <div class="mb-3">
                                         <label for="formFile" class="form-label">Accessory's Images</label>

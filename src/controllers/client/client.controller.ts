@@ -17,7 +17,10 @@ const get404page = (req: Request, res: Response) => {
 }
 
 const getCarsPage = async (req: Request, res: Response) => {
-    const cars = await getAllCars();
+    const { page } = req.query;
+    let currentPage = page ? +page : 1;
+    if (currentPage <= 0) currentPage = 1;
+    const cars = await getAllCars(currentPage);
     return res.render("client/car/carlist.ejs", {
         cars
     });

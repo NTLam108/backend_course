@@ -1,8 +1,13 @@
 
 import { prisma } from "config/client"
 
-const getItemCar = async () => {
-    const cars = await prisma.car.findMany();
+const getItemCar = async (page: number) => {
+    const pageSize = 8;
+    const skip = (page - 1) * pageSize
+    const cars = await prisma.car.findMany({
+        skip: skip,
+        take: pageSize
+    });
     return cars;
 }
 
@@ -153,8 +158,13 @@ const handlePlaceOrder = async (
     pickupDate: string,
     dropoffDate: string,
     pickupPlace: string,
-    thanhTien: number
+    thanhTien: any
 ) => {
+
+    //xử lý lỗi database
+    const cleanPickupDate = pickupDate.startsWith(',') ? pickupDate.substring(1) : pickupDate;
+    const cleanDropoffDate = dropoffDate.startsWith(',') ? dropoffDate.substring(1) : dropoffDate;
+
     const cart = await prisma.cart.findUnique({
         where: { userId },
         include: {
@@ -177,10 +187,10 @@ const handlePlaceOrder = async (
                 renterName: renterName,
                 renterAddress: renterAddress,
                 renterPhone: renterPhone,
-                pickupdate: pickupDate.toString(),
-                dropoffdate: dropoffDate.toString(),
+                pickupdate: cleanPickupDate,
+                dropoffdate: cleanDropoffDate,
                 pickupplace: pickupPlace,
-                totalPrice: thanhTien,
+                totalPrice: Number(thanhTien),
                 paymentMethod: "COD",
                 paymentStatus: "PAYMENT_UNPAID",
                 status: "PENDING",

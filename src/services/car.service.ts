@@ -27,8 +27,13 @@ const handleCreateCar = async (
     return newCar;
 }
 
-const getAllCars = async () => {
-    const cars = await prisma.car.findMany();
+const getAllCars = async (page: number) => {
+    const pageSize = 9;
+    const skip = (page - 1) * pageSize
+    const cars = await prisma.car.findMany({
+        skip: skip,
+        take: pageSize
+    });
     return cars;
 }
 const handleDeleteCar = async (id: string) => {

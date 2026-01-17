@@ -3,7 +3,10 @@ import { getItemCar } from "services/item.service";
 import { getAllRole, getAllUsers, getUserbyID, handleCreateUser, handleDeleteUser, updateUserbyID } from "services/user.service";
 
 const getHomepage = async (req: Request, res: Response) => {
-    const cars = await getItemCar();
+    const { page } = req.query;
+    let currentPage = page ? +page : 1;
+    if (currentPage <= 0) currentPage = 1;
+    const cars = await getItemCar(currentPage);
     const user = req.user;
     console.log("current user: ", user)
     return res.render("client/home/show.ejs", {

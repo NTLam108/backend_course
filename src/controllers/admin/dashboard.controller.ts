@@ -1,5 +1,7 @@
+import { render } from "ejs";
 import { Request, Response } from "express";
 import { getAllCars } from "services/car.service";
+import { getAllRental, handleViewRentalDetail } from "services/rental.service";
 import { getAllTool, handleCreateTool, handleDeleteTool, handleUpdateTool, handleViewTool } from "services/tool.service";
 import { getAllUsers } from "services/user.service";
 import { toolSchema, TtoolSchema } from "src/validation/tool.schema";
@@ -19,14 +21,22 @@ const getAdminUserPage = async (req: Request, res: Response) => {
 }
 
 const getAdminCarPage = async (req: Request, res: Response) => {
-    const cars = await getAllCars();
+    const { page } = req.query;
+    let currentPage = page ? +page : 1;
+    if (currentPage <= 0) currentPage = 1;
+    console.log("Page nhận được từ URL:", page);
+    console.log("Current Page sau khi xử lý:", currentPage);
+    const cars = await getAllCars(currentPage);
     return res.render("admin/car/show.ejs", {
         cars: cars
     })
 }
 
 const getAdminRentalPage = async (req: Request, res: Response) => {
-    return res.render("admin/rental/show.ejs")
+    const rentals = await getAllRental();
+    return res.render("admin/rental/show.ejs", {
+        rentals
+    })
 }
 
 const getAdminToolPage = async (req: Request, res: Response) => {
@@ -43,6 +53,7 @@ const getCreateTool = (req: Request, res: Response) => {
         quantity: "",
         status: "",
         descTool: "",
+        suitable_for: "",
     }
     return res.render("admin/tool/create.ejs", {
         errors, oldData
@@ -56,7 +67,7 @@ const getCreateTool = (req: Request, res: Response) => {
 //     descTool: string,
 //     imgTool: string
 const postCreateTool = async (req: Request, res: Response) => {
-    const { name, price, quantity, status, descTool } = req.body as TtoolSchema;
+    const { name, price, quantity, status, descTool, suitable_for } = req.body as TtoolSchema;
     const validate = toolSchema.safeParse(req.body);
 
     if (!validate.success) {
@@ -68,7 +79,8 @@ const postCreateTool = async (req: Request, res: Response) => {
             price: price,
             quantity: quantity,
             status: status,
-            descTool: descTool
+            descTool: descTool,
+            suitable_for: suitable_for
         }
 
         return res.render("admin/tool/create.ejs", {
@@ -78,7 +90,7 @@ const postCreateTool = async (req: Request, res: Response) => {
     //success
     const file = req.file;
     const imgTool = file?.filename ?? null
-    await handleCreateTool(name, +price, +quantity, status, descTool, imgTool);
+    await handleCreateTool(name, +price, +quantity, status, descTool, imgTool, suitable_for);
     return res.redirect("/admin/tool");
 }
 
@@ -97,9 +109,21 @@ const getViewTool = async (req: Request, res: Response) => {
         { name: "Out of Stock", value: "Out of Stock" },
     ]
 
+    const typeOptions = [
+        { name: "SUV", value: "SUV" },
+        { name: "HatchBack", value: "HatchBack" },
+        { name: "Sedan", value: "Sedan" },
+        { name: "VAN", value: "VAN" },
+        { name: "COUPE", value: "COUPE" },
+        { name: "CUV", value: "CUV" },
+        { name: "MPV", value: "MPV" },
+        { name: "PICKUP", value: "PICKUP" },
+    ]
+
     return res.render("admin/tool/detail.ejs", {
         tool,
-        statusOptions
+        statusOptions,
+        typeOptions,
     });
 }
 
@@ -110,7 +134,15 @@ const postUpdateTool = async (req: Request, res: Response) => {
     await handleUpdateTool(id, name, +price, status, +quantity, descTool, imgTool);
     return res.redirect("/admin/tool")
 }
+
+const getViewRentalDetail = async (req: Request, res: Response) => {
+    const { id } = req.params
+    const rentals = await handleViewRentalDetail(+id)
+    return res.render("admin/rental/detail.ejs", {
+        rentals
+    });
+}
 export {
     getDashboardPage, getAdminUserPage, getAdminCarPage, getAdminRentalPage, getAdminToolPage, getCreateTool, postCreateTool,
-    postDeleteTool, getViewTool, postUpdateTool
+    postDeleteTool, getViewTool, postUpdateTool, getViewRentalDetail
 }
