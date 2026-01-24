@@ -212,7 +212,21 @@ const handlePlaceOrder = async (
 
 }
 
+const getOrderHistory = async (id: number) => {
+    return await prisma.rental.findMany({
+        where: { userId: id },
+        include: {
+            rentalDetails: {
+                include: {
+                    car: true
+                }
+            }
+
+        }
+    })
+}
 
 
 
-export { getItemCar, getCarById, handleAddtoCart, showCartDetail, handleDeleteProduct, updateCartDetailBeforeCheckout, handlePlaceOrder }
+
+export { getItemCar, getCarById, handleAddtoCart, showCartDetail, handleDeleteProduct, updateCartDetailBeforeCheckout, handlePlaceOrder, getOrderHistory }

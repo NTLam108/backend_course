@@ -8,7 +8,8 @@ import { getCreateCarPage, getViewCar, postCreateCar, postDeleteCar, postUpdateC
 import { getLoginPage, getRegisterPage, getSuccessRedirectPage, postLogout, postRegister } from "controllers/client/auth.controller";
 import passport from "passport";
 import { isAdmin, isLogin } from "src/middleware/auth";
-import { getCartPage, getThanksPage, postAddCartoCart, postDeleteProductInCart, postHandleCartToCheckOut, postPlaceOrder } from "controllers/client/product.controller";
+import { getCartPage, getOrderHistoryPage, getSorryPage, getThanksPage, postAddCartoCart, postDeleteProductInCart, postHandleCartToCheckOut, postPlaceOrder } from "controllers/client/product.controller";
+import { renderSuccess } from "controllers/client/payment.controller";
 const router = express.Router();
 
 const webRoutes = (app: Express) => {
@@ -38,7 +39,9 @@ const webRoutes = (app: Express) => {
     router.post("/delete-product-in-cart/:id", postDeleteProductInCart)
     router.post("/handle-cart-to-checkout", postHandleCartToCheckOut)
     router.post("/place-order", postPlaceOrder)
-    router.get("/thanks", getThanksPage)
+    router.get("/thanks", renderSuccess)
+    router.get("/sorry", getSorryPage)
+    router.get("/order-history", getOrderHistoryPage);
 
     //admin route
     router.get("/admin", getDashboardPage)

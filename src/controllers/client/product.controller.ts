@@ -1,8 +1,13 @@
 import { Request, Response } from "express";
 import { syncBuiltinESMExports } from "module";
-import { handleAddtoCart, handleDeleteProduct, handlePlaceOrder, showCartDetail, updateCartDetailBeforeCheckout } from "services/item.service";
+import { getOrderHistory, handleAddtoCart, handleDeleteProduct, handlePlaceOrder, showCartDetail, updateCartDetailBeforeCheckout } from "services/item.service";
 import { handleGetToolSuitable } from "services/rental.service";
+import generateStripeSession from "services/stripe.service";
+import Stripe from "stripe";
 
+const stripe = new Stripe('sk_test_51SrgOkBxwZtST2AmGm98CKpaHHntpSfUf22MWNbfzFvdd5lboXBrDwC2NqqNhAxFmhdl9jBRH9MFeMWJegu5xzhi00MsMq4VSj'!, {
+    apiVersion: '2025-12-15.clover'
+})
 
 const postAddCartoCart = async (req: Request, res: Response) => {
     const { id } = req.params;
@@ -62,7 +67,11 @@ const postPlaceOrder = async (req: Request, res: Response) => {
     const { renterName, renterAddress, renterPhone, pickupDate, dropoffDate, pickupPlace, thanhTien } = req.body
     await handlePlaceOrder(user.id, renterName, renterAddress, renterPhone, pickupDate, dropoffDate, pickupPlace, thanhTien)
 
-    return res.redirect("/thanks")
+    const host = req.get('host')!;
+
+    const session = await generateStripeSession(user.id, host)
+
+    return res.redirect(303, session.url!);
 }
 
 const getThanksPage = (req: Request, res: Response) => {
@@ -72,4 +81,24 @@ const getThanksPage = (req: Request, res: Response) => {
     return res.render("client/other/thanks.ejs")
 }
 
-export { postAddCartoCart, getCartPage, postDeleteProductInCart, postHandleCartToCheckOut, postPlaceOrder, getThanksPage }
+const getSorryPage = (req: Request, res: Response) => {
+    const user = req.user
+    if (!user) return res.redirect("/login")
+
+    return res.render("client/other/sorry.ejs")
+}
+
+const getOrderHistoryPage = async (req: Request, res: Response) => {
+    const user = req.user;
+    if (!user) {
+        return res.redirect("/login");
+    }
+
+    const orders = await getOrderHistory(user.id);
+
+    return res.render("client/rental/orderhistory.ejs", {
+        orders
+    })
+}
+
+export { postAddCartoCart, getCartPage, postDeleteProductInCart, postHandleCartToCheckOut, postPlaceOrder, getThanksPage, getOrderHistoryPage, getSorryPage }
