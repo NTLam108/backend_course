@@ -5,7 +5,7 @@ import { handleGetToolSuitable } from "services/rental.service";
 import generateStripeSession from "services/stripe.service";
 import Stripe from "stripe";
 
-const stripe = new Stripe('sk_test_51SrgOkBxwZtST2AmGm98CKpaHHntpSfUf22MWNbfzFvdd5lboXBrDwC2NqqNhAxFmhdl9jBRH9MFeMWJegu5xzhi00MsMq4VSj'!, {
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
     apiVersion: '2025-12-15.clover'
 })
 
