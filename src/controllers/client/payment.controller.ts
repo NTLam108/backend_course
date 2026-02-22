@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import generateStripeSession from "services/stripe.service";
 import { prisma } from "config/client";
 
-const stripe = new Stripe('sk_test_51SrgOkBxwZtST2AmGm98CKpaHHntpSfUf22MWNbfzFvdd5lboXBrDwC2NqqNhAxFmhdl9jBRH9MFeMWJegu5xzhi00MsMq4VSj'!, {
+const stripe = new Stripe('STRIPE_SECRET_KEY'!, {
     apiVersion: '2025-12-15.clover'
 })
 

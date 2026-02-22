@@ -1,7 +1,7 @@
 import { prisma } from "config/client"
 import Stripe from "stripe"
 
-const stripe = new Stripe('sk_test_51SrgOkBxwZtST2AmGm98CKpaHHntpSfUf22MWNbfzFvdd5lboXBrDwC2NqqNhAxFmhdl9jBRH9MFeMWJegu5xzhi00MsMq4VSj'!, {
+const stripe = new Stripe('STRIPE_SECRET_KEY'!, {
     apiVersion: '2025-12-15.clover'
 })
 
