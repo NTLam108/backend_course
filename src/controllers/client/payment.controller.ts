@@ -4,9 +4,8 @@ import generateStripeSession from "services/stripe.service";
 import { prisma } from "config/client";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-    apiVersion: '2025-12-15.clover'
+    apiVersion: '2024-12-18.acacia' as any
 })
-
 
 const renderSuccess = async (req: Request, res: Response) => {
     try {
@@ -16,15 +15,19 @@ const renderSuccess = async (req: Request, res: Response) => {
         const session = await stripe.checkout.sessions.retrieve(sessionId);
         const rentalId = session.metadata?.rentalId;
 
-        await prisma.rental.update({
-            where: { id: +rentalId },
-            data: {
-                status: 'PAID'
-            }
-        })
+        if (rentalId) {
+            await prisma.rental.update({
+                where: { id: parseInt(rentalId, 10) },
+                data: {
+                    status: 'PAID',
+                    paymentStatus: 'PAID'
+                }
+            })
+        }
 
         res.render('client/other/thanks.ejs')
     } catch (error) {
+        console.error("Stripe Error: ", error);
         res.status(500).send("Lỗi xác nhận đơn hàng")
     }
 }

@@ -2,13 +2,18 @@ import { prisma } from "config/client"
 import Stripe from "stripe"
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-    apiVersion: '2026-04-22.dahlia' as any
+    apiVersion: '2024-12-18.acacia' as any
 })
 
 const parseDateVN = (str: any) => {
+    if (!str || typeof str !== 'string') return null;
     const parts = str.split('/');
     if (parts.length === 3) {
-        return new Date(parts[2], parts[1] - 1, parts[0]);
+        const day = parseInt(parts[0], 10);
+        const month = parseInt(parts[1], 10) - 1;
+        const year = parseInt(parts[2], 10);
+        const date = new Date(year, month, day);
+        return isNaN(date.getTime()) ? null : date;
     }
     return null;
 }
@@ -33,9 +38,12 @@ const generateStripeSession = async (id: number, host: string) => {
     const start = parseDateVN(carsrental.pickupdate);
     const end = parseDateVN(carsrental.dropoffdate);
 
-    // Tính chênh lệch mili giây và chuyển sang số ngày
-    const diffTime = Math.abs(end.getTime() - start.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) || 1; // Ít nhất là 1 ngày
+    let diffDays = 1;
+    if (start && end) {
+        // Tính chênh lệch mili giây và chuyển sang số ngày
+        const diffTime = Math.abs(end.getTime() - start.getTime());
+        diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) || 1; // Ít nhất là 1 ngày
+    }
 
     const line_items = carsrental.rentalDetails.map((detail) => {
         return {
