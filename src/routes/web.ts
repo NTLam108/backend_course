@@ -48,7 +48,7 @@ const webRoutes = (app: Express) => {
     //user
     router.get("/admin/user", getAdminUserPage)
     router.post("/admin/handle-delete-user/:id", postDeleteUser)
-    router.get("admin/handle-view-user/:id", getViewUser)
+    router.get("/admin/handle-view-user/:id", getViewUser)
     router.get("/admin/create-user", getCreateUserpage)
     router.post("/admin/update-user", fileUploadMiddleware("avatar", "images/user-avatar"), postUpdateUser)
     router.post("/admin/handle-create-user", fileUploadMiddleware("avatar", "images/user-avatar"), postCreateUserpage)

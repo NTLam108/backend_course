@@ -6,8 +6,8 @@ import generateStripeSession from "services/stripe.service";
 import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-    apiVersion: '2025-12-15.clover'
-})
+    apiVersion: '2026-04-22.dahlia' as any
+});
 
 const postAddCartoCart = async (req: Request, res: Response) => {
     const { id } = req.params;
