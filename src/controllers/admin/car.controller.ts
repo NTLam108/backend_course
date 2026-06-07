@@ -1,7 +1,7 @@
 import { prisma } from "config/client";
 import { Request, Response } from "express"
 import { getCarDetailbyId, handleCreateCar, handleDeleteCar, updateCarbyId } from "services/car.service";
-import { CarSchema, TCarSchema } from "src/validation/car.schema";
+import { CarSchema, TCarSchema } from "validation/car.schema";
 const getCreateCarPage = (req: Request, res: Response) => {
     const errors = [];
     const oldData = {

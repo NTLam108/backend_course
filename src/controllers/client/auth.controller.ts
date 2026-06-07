@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express"
 import { registerNewUser } from "services/auth.service";
-import { RegisterSchema, TRegisterSchema } from "src/validation/auth.schema";
+import { RegisterSchema, TRegisterSchema } from "validation/auth.schema";
 const getLoginPage = (req: Request, res: Response) => {
     const { session } = req as any;
     const messages = session?.messages ?? []   //lay message trong phan session

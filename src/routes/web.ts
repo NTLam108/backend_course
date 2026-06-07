@@ -2,12 +2,12 @@ import express from "express";
 import { Express } from "express"
 import { getCreateUserpage, getHomepage, getViewUser, postCreateUserpage, postDeleteUser, postUpdateUser } from "controllers/user.controller";
 import { getAdminCarPage, getAdminRentalPage, getAdminToolPage, getAdminUserPage, getCreateTool, getDashboardPage, getViewRentalDetail, getViewTool, postCreateTool, postDeleteTool, postUpdateTool } from "controllers/admin/dashboard.controller";
-import fileUploadMiddleware from "src/middleware/multer";
+import fileUploadMiddleware from "middleware/multer";
 import { get404page, getCarsPage, getCheckoutPage, getContactPage, getProductPage, getToolPage, postToolToCart } from "controllers/client/client.controller";
 import { getCreateCarPage, getViewCar, postCreateCar, postDeleteCar, postUpdateCar } from "controllers/admin/car.controller";
 import { getLoginPage, getRegisterPage, getSuccessRedirectPage, postLogout, postRegister } from "controllers/client/auth.controller";
 import passport from "passport";
-import { isAdmin, isLogin } from "src/middleware/auth";
+import { isAdmin, isLogin } from "middleware/auth";
 import { getCartPage, getOrderHistoryPage, getSorryPage, getThanksPage, postAddCartoCart, postDeleteProductInCart, postHandleCartToCheckOut, postPlaceOrder } from "controllers/client/product.controller";
 import { renderSuccess } from "controllers/client/payment.controller";
 const router = express.Router();

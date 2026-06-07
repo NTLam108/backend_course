@@ -4,7 +4,7 @@ import { getAllCars } from "services/car.service";
 import { getAllRental, handleViewRentalDetail } from "services/rental.service";
 import { getAllTool, handleCreateTool, handleDeleteTool, handleUpdateTool, handleViewTool } from "services/tool.service";
 import { getAllUsers } from "services/user.service";
-import { toolSchema, TtoolSchema } from "src/validation/tool.schema";
+import { toolSchema, TtoolSchema } from "validation/tool.schema";
 
 
 const getDashboardPage = async (req: Request, res: Response) => {

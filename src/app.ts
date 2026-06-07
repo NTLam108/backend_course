@@ -1,11 +1,11 @@
 /// <reference path="./types/index.d.ts" />
 import express from "express" //import
 import "dotenv/config"  // cu phap su dung voi typescript
-import webRoutes from "src/routes/web";
+import webRoutes from "routes/web";
 import getConnection from "./config/database";
 import initDatabase from "config/seed";
 import passport from "passport";
-import configPassportLocal from "src/middleware/passport.local";
+import configPassportLocal from "middleware/passport.local";
 import session from "express-session";
 import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 import { PrismaClient } from '@prisma/client';
