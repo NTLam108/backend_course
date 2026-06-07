@@ -26,8 +26,7 @@ const handleGetToolSuitable = async (id: number) => {
     if (yourCart) {
         const yourDetailCart = await prisma.cartDetail.findFirst({
             where: {
-                cartId: yourCart.id,
-                carId: { not: null }
+                cartId: yourCart.id
             },
             include: {
                 car: true,
