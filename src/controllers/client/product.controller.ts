@@ -60,7 +60,11 @@ const postPlaceOrder = async (req: Request, res: Response) => {
     if (!user) return res.redirect("/login")
 
     const { renterName, renterAddress, renterPhone, pickupDate, dropoffDate, pickupPlace, thanhTien } = req.body
-    await handlePlaceOrder(user.id, renterName, renterAddress, renterPhone, pickupDate, dropoffDate, pickupPlace, thanhTien)
+    const result = await handlePlaceOrder(user.id, renterName, renterAddress, renterPhone, pickupDate, dropoffDate, pickupPlace, thanhTien)
+
+    if (!result.success) {
+        return res.render("client/other/sorry.ejs", { message: result.message })
+    }
 
     const host = req.get('host')!;
 

@@ -81,9 +81,11 @@
                     <div class="col-lg-6">
                         <i class="bi bi-check-circle-fill text-danger fs-1"></i>
                         <h3 class="display-1">SORRY</h3>
-                        <h4 class="display">Cảm ơn quý khách hàng, vì giữa muôn vàn lựa chọn đã chọn VietNam Rent-a-Car.
+                        <h4 class="display">Cảm ơn quý khách hàng đã tin tưởng VietNam Rent-a-Car.
                         </h4>
-                        <p class="mb-4">Đơn thuê của bạn chưa được thanh toán. Vui lòng đến trang chủ và thực hiện lại.
+                        <p class="mb-4">
+                            <%= typeof message !=='undefined' ? message
+                                : "Đơn thuê của bạn chưa được thanh toán hoặc không hợp lệ. Vui lòng kiểm tra lại." %>
                         </p>
                         <a class="mx-auto mt-2 btn book-now-btn rounded-pill px-3"
                             style="border-color: black !important;" href="/">Go Back To Home</a>

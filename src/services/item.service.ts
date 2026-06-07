@@ -1,6 +1,15 @@
 
 import { prisma } from "config/client"
 
+const parseDate = (dateStr: string): Date => {
+    const parts = dateStr.split('/');
+    if (parts.length === 3) {
+        const [day, month, year] = parts.map(Number);
+        return new Date(year, month - 1, day);
+    }
+    return new Date(dateStr);
+}
+
 const getItemCar = async (page: number) => {
     const pageSize = 8;
     const skip = (page - 1) * pageSize
@@ -175,6 +184,50 @@ const handlePlaceOrder = async (
     })
 
     if (cart) {
+        const start = parseDate(cleanPickupDate);
+        const end = parseDate(cleanDropoffDate);
+
+        // Check availability for each car in cart
+        for (const item of cart.cartDetails) {
+            const overlapping = await prisma.rental_detail.findFirst({
+                where: {
+                    carId: item.carId,
+                    rental: {
+                        OR: [
+                            {
+                                AND: [
+                                    { pickupdate: { lte: start } },
+                                    { dropoffdate: { gte: start } }
+                                ]
+                            },
+                            {
+                                AND: [
+                                    { pickupdate: { lte: end } },
+                                    { dropoffdate: { gte: end } }
+                                ]
+                            },
+                            {
+                                AND: [
+                                    { pickupdate: { lte: start } },
+                                    { dropoffdate: { gte: end } }
+                                ]
+                            },
+                            {
+                                AND: [
+                                    { pickupdate: { gte: start } },
+                                    { dropoffdate: { lte: end } }
+                                ]
+                            }
+                        ],
+                        status: { notIn: ["CANCELLED", "REJECTED"] }
+                    }
+                }
+            });
+
+            if (overlapping) {
+                return { success: false, message: `Xe bạn chọn đã có người đặt trong thời gian này.` };
+            }
+        }
 
         const dataRentalDetail = cart?.cartDetails?.map(
             item => ({
@@ -189,8 +242,8 @@ const handlePlaceOrder = async (
                 renterName: renterName,
                 renterAddress: renterAddress,
                 renterPhone: renterPhone,
-                pickupdate: cleanPickupDate,
-                dropoffdate: cleanDropoffDate,
+                pickupdate: start,
+                dropoffdate: end,
                 pickupplace: pickupPlace,
                 totalPrice: Number(thanhTien),
                 paymentMethod: "COD",
@@ -210,8 +263,9 @@ const handlePlaceOrder = async (
         await prisma.cart.delete({
             where: { id: cart.id }
         })
+        return { success: true };
     }
-
+    return { success: false, message: "Cart not found" };
 }
 
 const getOrderHistory = async (id: number) => {
