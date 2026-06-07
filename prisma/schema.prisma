@@ -68,8 +68,8 @@ model Rental_detail {
 model Rental {
   id            Int             @id @default(autoincrement())
   totalPrice    Int
-  pickupdate    DateTime
-  dropoffdate   DateTime
+  pickupdate    String          @db.VarChar(255)
+  dropoffdate   String          @db.VarChar(255)
   pickupplace   String          @db.VarChar(255)
   renterName    String          @db.VarChar(255)
   renterAddress String          @db.VarChar(255)

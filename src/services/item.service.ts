@@ -189,43 +189,26 @@ const handlePlaceOrder = async (
 
         // Check availability for each car in cart
         for (const item of cart.cartDetails) {
-            const overlapping = await prisma.rental_detail.findFirst({
+            const existingRentals = await prisma.rental_detail.findMany({
                 where: {
                     carId: item.carId,
                     rental: {
-                        OR: [
-                            {
-                                AND: [
-                                    { pickupdate: { lte: start } },
-                                    { dropoffdate: { gte: start } }
-                                ]
-                            },
-                            {
-                                AND: [
-                                    { pickupdate: { lte: end } },
-                                    { dropoffdate: { gte: end } }
-                                ]
-                            },
-                            {
-                                AND: [
-                                    { pickupdate: { lte: start } },
-                                    { dropoffdate: { gte: end } }
-                                ]
-                            },
-                            {
-                                AND: [
-                                    { pickupdate: { gte: start } },
-                                    { dropoffdate: { lte: end } }
-                                ]
-                            }
-                        ],
                         status: { notIn: ["CANCELLED", "REJECTED"] }
                     }
+                },
+                include: {
+                    rental: true
                 }
             });
 
-            if (overlapping) {
-                return { success: false, message: `Xe bạn chọn đã có người đặt trong thời gian này.` };
+            for (const entry of existingRentals) {
+                const s_ex = parseDate(entry.rental.pickupdate);
+                const e_ex = parseDate(entry.rental.dropoffdate);
+
+                // Overlap condition: (StartA <= EndB) and (EndA >= StartB)
+                if ((start <= e_ex) && (end >= s_ex)) {
+                    return { success: false, message: `Xe bạn chọn đã có người đặt trong thời gian này.` };
+                }
             }
         }
 
@@ -242,8 +225,8 @@ const handlePlaceOrder = async (
                 renterName: renterName,
                 renterAddress: renterAddress,
                 renterPhone: renterPhone,
-                pickupdate: start,
-                dropoffdate: end,
+                pickupdate: cleanPickupDate,
+                dropoffdate: cleanDropoffDate,
                 pickupplace: pickupPlace,
                 totalPrice: Number(thanhTien),
                 paymentMethod: "COD",
