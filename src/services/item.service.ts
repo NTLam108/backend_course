@@ -33,6 +33,8 @@ const handleAddtoCart = async (
         }
     })
 
+    if (!car) return;
+
     if (cart) {
         //update cart
         //cập nhật sum của cart
@@ -225,8 +227,5 @@ const getOrderHistory = async (id: number) => {
         }
     })
 }
-
-
-
 
 export { getItemCar, getCarById, handleAddtoCart, showCartDetail, handleDeleteProduct, updateCartDetailBeforeCheckout, handlePlaceOrder, getOrderHistory }

@@ -30,8 +30,19 @@ const handleCreateTool = async (
     return newTool;
 }
 
-const getAllTool = async () => {
-    const tools = await prisma.carTool.findMany();
+const getAllTool = async (sortBy: string = 'featured') => {
+    let orderBy: any = {};
+    if (sortBy === 'priceLowToHigh') {
+        orderBy = { price: 'asc' };
+    } else if (sortBy === 'priceHighToLow') {
+        orderBy = { price: 'desc' };
+    } else {
+        orderBy = { id: 'desc' };
+    }
+
+    const tools = await prisma.carTool.findMany({
+        orderBy
+    });
     return tools;
 }
 

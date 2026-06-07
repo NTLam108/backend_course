@@ -65,130 +65,27 @@
                         <div class="row g-4">
                             <div class="col-9"></div>
                             <div class="col-xl-3">
-                                <div class="bg-light ps-3 py-3 rounded d-flex justify-content-between mb-4">
-                                    <label for="fruits">Sort by:</label>
-                                    <select id="fruits" name="fruitlist" class="border-0 form-select-sm bg-light me-3"
-                                        form="fruitform">
-                                        <option value="volvo">Featured</option>
-                                        <option value="saab">Price: Low to High</option>
-                                        <option value="opel">PriceL High to Low</option>
-                                    </select>
-                                </div>
+                                <form action="/tool" method="GET" id="sortForm">
+                                    <div class="bg-light ps-3 py-3 rounded d-flex justify-content-between mb-4">
+                                        <label for="sort">Sort by:</label>
+                                        <select id="sort" name="sort" class="border-0 form-select-sm bg-light me-3"
+                                            onchange="this.form.submit()">
+                                            <option value="featured" <%=sort==='featured' ? 'selected' : '' %>>Featured
+                                            </option>
+                                            <option value="priceLowToHigh" <%=sort==='priceLowToHigh' ? 'selected' : ''
+                                                %>>Price: Low to High</option>
+                                            <option value="priceHighToLow" <%=sort==='priceHighToLow' ? 'selected' : ''
+                                                %>>Price: High to Low</option>
+                                        </select>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                         <div class="row g-4">
-                            <div class="col-lg-3">
-                                <div class="row g-4">
-                                    <div class="col-lg-12">
-                                        <div class="mb-4">
-                                            <h4>Car Brands</h4>
-                                            <ul class="list-unstyled fruite-categorie">
-                                                <li>
-                                                    <div class="d-flex justify-content-between fruite-name">
-                                                        <a href="#" style="color: gray"><i
-                                                                class="fa-duotone fa-solid fa-car-side"></i>&nbsp&nbsp&nbspToyota</a>
-                                                        <span>(2)</span>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="d-flex justify-content-between fruite-name">
-                                                        <a href="#" style="color: gray"><i
-                                                                class="fa-duotone fa-solid fa-car-side"></i>&nbsp&nbsp&nbspVinFast</a>
-                                                        <span>(1)</span>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="d-flex justify-content-between fruite-name">
-                                                        <a href="#" style="color: gray"><i
-                                                                class="fa-duotone fa-solid fa-car-side"></i>&nbsp&nbsp&nbspHuyndai</a>
-                                                        <span>(0)</span>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="d-flex justify-content-between fruite-name">
-                                                        <a href="#" style="color: gray"><i
-                                                                class="fa-duotone fa-solid fa-car-side"></i>&nbsp&nbsp&nbspKia</a>
-                                                        <span>(1)</span>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="d-flex justify-content-between fruite-name">
-                                                        <a href="#" style="color: gray"><i
-                                                                class="fa-duotone fa-solid fa-car-side"></i>&nbsp&nbsp&nbspMazda</a>
-                                                        <span>(1)</span>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="d-flex justify-content-between fruite-name">
-                                                        <a href="#" style="color: gray"><i
-                                                                class="fa-duotone fa-solid fa-car-side"></i>&nbsp&nbsp&nbspMitsubishi</a>
-                                                        <span>(0)</span>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="d-flex justify-content-between fruite-name">
-                                                        <a href="#" style="color: gray"><i
-                                                                class="fa-duotone fa-solid fa-car-side"></i>&nbsp&nbsp&nbspHonda</a>
-                                                        <span>(2)</span>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="d-flex justify-content-between fruite-name">
-                                                        <a href="#" style="color: gray"><i
-                                                                class="fa-duotone fa-solid fa-car-side"></i>&nbsp&nbsp&nbspFord</a>
-                                                        <span>(1)</span>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <div class="mb-3">
-                                            <h4 class="mb-2">Price</h4>
-                                            <input type="range" class="form-range w-100" id="rangeInput"
-                                                name="rangeInput" min="800000" max="2000000" value="0"
-                                                oninput="amount.value=rangeInput.value">
-                                            <output id="amount" name="amount" min-value="800000" max-value="2000000"
-                                                for="rangeInput">0</output>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <div class="mb-3">
-                                            <h4>Type of Engine</h4>
-                                            <div class="mb-2">
-                                                <input type="radio" class="me-2" id="Categories-1" name="Categories-1"
-                                                    value="Beverages">
-                                                <label for="Categories-1">Hybrid</label>
-                                            </div>
-                                            <div class="mb-2">
-                                                <input type="radio" class="me-2" id="Categories-1" name="Categories-1"
-                                                    value="Beverages">
-                                                <label for="Categories-1">Electric</label>
-                                            </div>
-                                            <div class="mb-2">
-                                                <input type="radio" class="me-2" id="Categories-1" name="Categories-1"
-                                                    value="Beverages">
-                                                <label for="Categories-1">Diesel</label>
-                                            </div>
-                                            <div class="mb-2">
-                                                <input type="radio" class="me-2" id="Categories-1" name="Categories-1"
-                                                    value="Beverages">
-                                                <label for="Categories-1">gasoline</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <div class="position-relative">
-                                            <img src="/client/img/bannercl.jpg" class="img-fluid w-100 rounded"
-                                                alt="banner">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-9">
+                            <div class="col-lg-12">
                                 <div class="row g-4 justify-content-center">
                                     <% tools.forEach( function (tool) { %>
-                                        <div class="col-md-6 col-lg-6 col-xl-4">
+                                        <div class="col-md-6 col-lg-4 col-xl-3">
                                             <div class="rounded position-relative fruite-item">
                                                 <div class="fruite-img">
                                                     <img src="/images/tool-img/<%=tool.imgTool%>"
@@ -201,7 +98,8 @@
                                                 <div style="border-color: black !important;"
                                                     class="p-4 border border-secondary border-top-0 rounded-bottom">
                                                     <h4 style="text-align: center; width: 100%">
-                                                        <a style="font-size: 20px; color:black !important; " href="">
+                                                        <a style="font-size: 20px; color:black !important; "
+                                                            href="javascript:void(0)">
                                                             <%=tool.name%>
                                                         </a>
                                                     </h4>

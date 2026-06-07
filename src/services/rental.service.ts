@@ -26,17 +26,22 @@ const handleGetToolSuitable = async (id: number) => {
     if (yourCart) {
         const yourDetailCart = await prisma.cartDetail.findFirst({
             where: {
-                cartId: yourCart.id
+                cartId: yourCart.id,
+                carId: { not: null }
             },
             include: {
                 car: true,
             }
         })
-        const suitableTool = await prisma.carTool.findMany({
-            where: { suitable_for: yourDetailCart.car.carType }
-        })
-        return suitableTool;
+
+        if (yourDetailCart && yourDetailCart.car) {
+            const suitableTool = await prisma.carTool.findMany({
+                where: { suitable_for: yourDetailCart.car.carType }
+            })
+            return suitableTool;
+        }
     }
-    return [];
+    // Return all tools if no specific car in cart
+    return await prisma.carTool.findMany({ take: 3 });
 }
 export { getAllRental, handleViewRentalDetail, handleGetToolSuitable }

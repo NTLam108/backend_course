@@ -59,13 +59,15 @@ const getContactPage = (req: Request, res: Response) => {
     return res.render("client/other/contact.ejs");
 }
 const getToolPage = async (req: Request, res: Response) => {
-    const tools = await getAllTool();
+    const { sort } = req.query;
+    const tools = await getAllTool(sort as string);
     return res.render("client/tool/tools.ejs", {
-        tools
+        tools,
+        sort: sort || 'featured'
     });
 }
 
-const postToolToCart = () => {
+const postToolToCart = (req: Request, res: Response) => {
 
 }
 
