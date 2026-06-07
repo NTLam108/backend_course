@@ -17,12 +17,27 @@ const get404page = (req: Request, res: Response) => {
 }
 
 const getCarsPage = async (req: Request, res: Response) => {
-    const { page } = req.query;
+    const { page, engine, carType, brand, seat, sort, minPrice, maxPrice } = req.query;
     let currentPage = page ? +page : 1;
     if (currentPage <= 0) currentPage = 1;
-    const cars = await getAllCars(currentPage);
+
+    const filters = {
+        engine: engine as string,
+        carType: carType as string,
+        brand: brand as string,
+        seat: seat ? +seat : undefined,
+        minPrice: minPrice ? +minPrice : undefined,
+        maxPrice: maxPrice ? +maxPrice : undefined
+    };
+
+    const result = await getAllCars(currentPage, 9, filters, sort as string);
+
     return res.render("client/car/carlist.ejs", {
-        cars
+        cars: result.cars,
+        totalPages: result.totalPages,
+        currentPage: currentPage,
+        filters: filters,
+        sort: sort || 'featured'
     });
 }
 

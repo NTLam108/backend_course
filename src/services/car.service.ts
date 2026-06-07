@@ -27,14 +27,57 @@ const handleCreateCar = async (
     return newCar;
 }
 
-const getAllCars = async (page: number) => {
-    const pageSize = 9;
-    const skip = (page - 1) * pageSize
-    const cars = await prisma.car.findMany({
-        skip: skip,
-        take: pageSize
-    });
-    return cars;
+const getAllCars = async (
+    page: number,
+    pageSize: number = 9,
+    filters: {
+        brand?: string,
+        carType?: string,
+        engine?: string,
+        seat?: number,
+        minPrice?: number,
+        maxPrice?: number
+    } = {},
+    sortBy: string = 'featured'
+) => {
+    const skip = (page - 1) * pageSize;
+
+    const where: any = {};
+    if (filters.brand) where.brand = filters.brand;
+    if (filters.carType) where.carType = filters.carType;
+    if (filters.engine) where.engine = filters.engine;
+    if (filters.seat) where.seat = filters.seat;
+    if (filters.minPrice || filters.maxPrice) {
+        where.priceperday = {
+            gte: filters.minPrice || 0,
+            lte: filters.maxPrice || 1000000000
+        };
+    }
+
+    let orderBy: any = {};
+    if (sortBy === 'priceLowToHigh') {
+        orderBy = { priceperday: 'asc' };
+    } else if (sortBy === 'priceHighToLow') {
+        orderBy = { priceperday: 'desc' };
+    } else {
+        orderBy = { id: 'desc' }; // Featured or Default
+    }
+
+    const [cars, total] = await Promise.all([
+        prisma.car.findMany({
+            where,
+            skip,
+            take: pageSize,
+            orderBy
+        }),
+        prisma.car.count({ where })
+    ]);
+
+    return {
+        cars,
+        total,
+        totalPages: Math.ceil(total / pageSize)
+    };
 }
 const handleDeleteCar = async (id: string) => {
     await prisma.car.delete({
