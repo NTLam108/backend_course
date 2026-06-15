@@ -210,13 +210,14 @@
                                                                         style: 'currency' , currency: 'VND'
                                                                         }).format(car.priceperday) %>/day
                                                                 </p>
-                                                                <button type="button"
-                                                                    class="mx-auto mt-2 btn book-now-btn rounded-pill px-3"
-                                                                    style="border-color: black !important;"
-                                                                    onclick="addToCart('<%=car.id%>')">
-                                                                    <i class="fa-solid fa-car-side me-2"></i>
-                                                                    Book Now
-                                                                </button>
+                                                                <form method="post"
+                                                                    action="/add-car-to-cart/<%=car.id%>">
+                                                                    <button
+                                                                        class="mx-auto mt-2 btn book-now-btn rounded-pill px-3"
+                                                                        style="border-color: black !important;"><i
+                                                                            class="fa-solid fa-car-side me-2"></i>
+                                                                        Book Now</button>
+                                                                </form>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -264,14 +265,6 @@
                                             if (page < 1 || page > <%= totalPages %>) return;
                                             document.getElementById('pageInput').value = page;
                                             document.getElementById('filterForm').submit();
-                                        }
-
-                                        function addToCart(carId) {
-                                            const form = document.createElement('form');
-                                            form.method = 'POST';
-                                            form.action = `/add-car-to-cart/${carId}`;
-                                            document.body.appendChild(form);
-                                            form.submit();
                                         }
                                     </script>
                                 </div>
