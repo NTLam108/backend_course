@@ -203,8 +203,8 @@
                                                                 </a>
                                                             </h4>
 
-                                                            <div class="d-flex justify-content-between flex-lg-wrap">
-                                                                <p style="font-size: 15px; text-align: center; width: 100%; color:black;"
+                                                            <div class="d-flex flex-column align-items-center">
+                                                                <p style="font-size: 15px; color:black;"
                                                                     class="fs-5 fw-bold mb-0">
                                                                     <%= new Intl.NumberFormat('vi-VN', {
                                                                         style: 'currency' , currency: 'VND'
@@ -213,7 +213,7 @@
                                                                 <form method="post"
                                                                     action="/add-car-to-cart/<%=car.id%>">
                                                                     <button
-                                                                        class="mx-auto mt-2 btn book-now-btn rounded-pill px-3"
+                                                                        class="mt-2 btn book-now-btn rounded-pill px-3"
                                                                         style="border-color: black !important;"><i
                                                                             class="fa-solid fa-car-side me-2"></i>
                                                                         Book Now</button>
