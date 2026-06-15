@@ -14,7 +14,7 @@ const postAddCartoCart = async (req: Request, res: Response) => {
         // nếu chưa đăng nhập
         return res.redirect("/login")
     }
-    return res.redirect("back");
+    return res.redirect(req.get("Referer") || "/");
 }
 
 const getCartPage = async (req: Request, res: Response) => {
